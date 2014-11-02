@@ -18,7 +18,7 @@
 
 ## NKstamina 2.0 Standard Plugins
 ---------------------------------
-- [ ] Easy Installer
+- [ ] Easy Installer Plugin
 - [ ] Article Plugin
 - [ ] Tags Plugin
 - [ ] User/Group Plugin
