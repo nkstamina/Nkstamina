@@ -14,6 +14,7 @@
 - [ ] Templating
 - [ ] Stopwatch
 - [ ] Pimple
+- [ ] Password_compat
 
 
 ## NKstamina 2.0 Functional/Unit Tests
