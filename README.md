@@ -8,6 +8,12 @@
 - [x] Routing
 - [ ] HttpKernel
 - [ ] EventDispatcher
+- [ ] Translation
+- [ ] Finder
+- [ ] Console
+- [ ] Templating
+- [ ] Stopwatch
+- [ ] Pimple
 
 
 ## NKstamina 2.0 Functional/Unit Tests
