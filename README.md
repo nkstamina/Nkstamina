@@ -17,6 +17,13 @@
 - [ ] Password_compat
 
 
+## NKstamina 2.0 DB supported types
+--------------------------------------
+- [x] SQLITE
+- [x] MYSQL
+- [x] PGSQL
+
+
 ## NKstamina 2.0 Functional/Unit Tests
 --------------------------------------
 - [ ] Unit Tests (phpUnit, Prophecy, ...)
