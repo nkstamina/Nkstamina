@@ -1,33 +1,11 @@
 # NKstamina, a Nuked-Klan 2.0 PoC with good calories 
 ----------------------------------------------------
 
-## NKstamina 2.0 Core Prerequisites
------------------------------------
-- [x] HttpFoundation
-- [x] ClassLoader
-- [x] Routing
-- [ ] HttpKernel
-- [ ] EventDispatcher
-- [ ] Translation
-- [ ] Finder
-- [ ] Console
-- [ ] Templating
-- [ ] Stopwatch
-- [ ] Pimple
-- [ ] Password_compat
+[Visitez Le framework de NkStamina](http://github.com/nkstamina/Framework) en cours de développement
+Vous souhaitez nous aider? C'est facile, Forkez le projet :)
 
-
-## NKstamina 2.0 DB supported types
---------------------------------------
-- [x] SQLITE
-- [x] MYSQL
-- [x] PGSQL
-
-
-## NKstamina 2.0 Functional/Unit Tests
---------------------------------------
-- [ ] Unit Tests (phpUnit, Prophecy, ...)
-- [ ] Functional Tests (Behat, PHPSpec, ...)
+[Visit The NkStamina Framework](http://github.com/nkstamina/Framework) still in development
+Want to help? Please fork the project :) 
 
 
 ## NKstamina 2.0 Standard Plugins
