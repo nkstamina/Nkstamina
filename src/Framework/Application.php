@@ -3,11 +3,13 @@
 namespace Nkstamina\Framework;
 
 use Nkstamina\Framework\Controller\ControllerResolver;
+use Nkstamina\Framework\Provider\ConfigServiceProvider;
 use Nkstamina\Framework\Provider\RoutingServiceProvider;
-use Nkstamina\Framework\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -19,7 +21,7 @@ class Application extends Container implements HttpKernelInterface
     const VERSION = '0.0.0-DEV';
 
     const EARLY_EVENT = 512;
-    const LATE_EVENT = -512;
+    const LATE_EVENT  = -512;
 
     protected $providers = [];
     protected $booted = false;
@@ -40,15 +42,27 @@ class Application extends Container implements HttpKernelInterface
         $this['debug'] = false;
         $this['charset'] = 'UTF-8';
         $this['logger'] = null;
-
+        $this['use_cache'] = true;
 
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
         };
 
+        $this['event_dispatcher_class'] = 'Symfony\\Component\\EventDispatcher\\EventDispatcher';
+        $this['dispatcher'] = function () use ($app) {
+            return new $app['event_dispatcher_class'];
+        };
 
+        $this['kernel'] = function () use ($app) {
+            return new HttpKernel($app['dispatcher'], $app['resolver']);
+        };
 
+        $this->register(new ConfigServiceProvider());
         $this->register(new RoutingServiceProvider());
+
+        foreach ($values as $key => $value) {
+            $this[$key] = $value;
+        }
     }
 
     /**
@@ -60,16 +74,8 @@ class Application extends Container implements HttpKernelInterface
      *
      * @return $this|static
      */
-    public function register(ServiceProviderInterface $provider, array $values = [])
+    public function register(ServiceProviderInterface $provider, array $values = array())
     {
-        if (is_string($provider)) {
-            $provider = new $provider;
-        }
-
-        if(!$provider instanceof ServiceProviderInterface) {
-            throw new \InvalidArgumentException('Provider must implement the ServiceProviderInterface');
-        }
-
         $this->providers[] = $provider;
 
         parent::register($provider, $values);
@@ -78,7 +84,7 @@ class Application extends Container implements HttpKernelInterface
     }
 
     /**
-     * Boots all service providers
+     * Boots all providers
      *
      * @return bool
      */
@@ -101,9 +107,10 @@ class Application extends Container implements HttpKernelInterface
         if (!$this->booted) {
             $this->boot();
         }
+
         $this['request'] = $request;
 
-        return $this['router']->handle($request, $type, $catch);
+        return $this['kernel']->handle($request, $type, $catch);
     }
 
     /**
@@ -118,8 +125,8 @@ class Application extends Container implements HttpKernelInterface
         }
 
         $response = $this->handle($request);
-        $response->send();
-        $this->terminate($request, $response);
+        //$response->send();
+        //$this->terminate($request, $response);
     }
 
     /**
@@ -127,10 +134,10 @@ class Application extends Container implements HttpKernelInterface
      */
     public function terminate(Request $request, Response $response)
     {
-        $this['router']->terminate($request, $response);
+        $this['kernel']->terminate($request, $response);
     }
 
-        /**
+    /**
      * Returns providers
      *
      * @return array
