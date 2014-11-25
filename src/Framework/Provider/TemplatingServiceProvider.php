@@ -28,7 +28,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
      */
     public function getName()
     {
-        return 'templating.service.provider';
+        return 'templating_service_provider';
     }
 
 } 

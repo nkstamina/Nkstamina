@@ -42,7 +42,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
      */
     public function getName()
     {
-        return 'database.service.provider';
+        return 'database_service_provider';
     }
 
 } 
