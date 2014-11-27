@@ -14,6 +14,6 @@
     ],
     "require": {
 	"php": ">=5.4.0",
-	"nkstamina/framework": "@dev-master"
+	"nkstamina/framework": "0.0.0-dev"
     }
 }
