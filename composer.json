@@ -3,9 +3,6 @@
     "license": "MIT",
     "type": "project",
     "description": "A Nuked-Klan 2.0 PoC with good calories",
-    "autoload": {
-        "psr-0": {"": "src/"}
-    },
     "authors": [
         {
             "name": "maclovr",
@@ -13,7 +10,7 @@
         }
     ],
     "require": {
-	"php": ">=5.4.0",
-	"nkstamina/framework": "0.0.*@dev"
+        "php": ">=5.4.0",
+        "nkstamina/framework": "0.0.*@dev"
     }
 }
