@@ -1,6 +1,6 @@
 {
     "name": "nkstamina/framework",
-    "description": "Nkstamina, a Nuked-Klan 2.0 PoC with good calories",
+    "description": "The NkStamina Framework",
     "keywords": ["framework", "nkstamina"],
     "homepage": "https://github.com/nkstamina",
     "license": "MIT",
@@ -18,7 +18,7 @@
         "symfony/routing": "2.5.*",
         "symfony/yaml": "3.0.x-dev",
         "symfony/event-dispatcher": "2.5.*",
-        "symfony/yaml": "3.0.x-dev"
+        "symfony/yaml": "*"
     },
     "autoload": {
         "psr-4": {
@@ -27,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0.0-dev"
+            "dev-master": "0.0-dev"
         }
     }
 } 
