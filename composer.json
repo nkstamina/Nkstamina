@@ -1,0 +1,33 @@
+{
+    "name": "nkstamina/framework",
+    "description": "Nkstamina, a Nuked-Klan 2.0 PoC with good calories",
+    "keywords": ["framework", "nkstamina"],
+    "homepage": "https://github.com/nkstamina",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nkstamina",
+            "email": "nkstamina@gmail.com"
+        }
+    ],
+    "require": {
+        "pimple/pimple": "~3.0",
+        "symfony/finder": "2.5.*",
+        "symfony/http-foundation": "2.5.*",
+        "symfony/http-kernel": "2.5.*",
+        "symfony/routing": "2.5.*",
+        "symfony/yaml": "3.0.x-dev",
+        "symfony/event-dispatcher": "2.5.*",
+        "symfony/yaml": "3.0.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nkstamina\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.0-dev"
+        }
+    }
+} 
