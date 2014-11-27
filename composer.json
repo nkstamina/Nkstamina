@@ -1,5 +1,5 @@
 {
-    "name": "nkstamina/nuked-klan-standard-edition",
+    "name": "nkstamina/nkstamina",
     "license": "MIT",
     "type": "project",
     "description": "A Nuked-Klan 2.0 PoC with good calories",
@@ -14,6 +14,6 @@
     ],
     "require": {
 	"php": ">=5.4.0",
-	"nkstamina/framework": "0.0.*@dev"
+	"nkstamina/framework": "@dev-master"
     }
 }
