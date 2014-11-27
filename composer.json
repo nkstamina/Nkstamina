@@ -1,6 +1,6 @@
 {
     "name": "nkstamina/framework",
-    "description": "Nkstamina, a Nuked-Klan 2.0 PoC with good calories",
+    "description": "The NkStamina Framework",
     "keywords": ["framework", "nkstamina"],
     "homepage": "https://github.com/nkstamina",
     "license": "MIT",
