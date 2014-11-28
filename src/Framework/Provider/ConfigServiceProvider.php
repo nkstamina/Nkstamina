@@ -16,14 +16,23 @@ class ConfigServiceProvider implements ServiceProviderInterface
     const APP_DIRECTORY    = 'app';
     const CACHE_DIRECTORY  = 'cache';
     const CONFIG_DIRECTORY = 'config';
-    const CONFIG_ROUTES_FILE = 'routes.yml';
+
+    // to switch between prod & dev
+    // just set the APP_ENV environment variable:
+    // in apache: SetEnv APP_ENV dev
+    // in nginx with fcgi: fastcgi_param APP_ENV dev
+    const CONFIG_ROUTES_FILE = 'routing.yml';
 
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
-        $configDirectories = [self::APP_DIRECTORY . '/' . self::CONFIG_DIRECTORY];
+        $app['root_dir'] = realpath(__DIR__ . '/../../../../');
+        $configDirectories = [ $app['root_dir'] . '/' . self::APP_DIRECTORY . '/' . self::CONFIG_DIRECTORY];
+
+//        print_r($configDirectories);
+//        exit;
         $locator = new FileLocator($configDirectories);
 
         // load only *.yml files?

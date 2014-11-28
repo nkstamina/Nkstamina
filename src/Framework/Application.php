@@ -37,12 +37,13 @@ class Application extends Container implements HttpKernelInterface
 
         $app = $this;
 
+        $this['env'] = getenv('APP_ENV') ?: 'prod';
         $this['request.http_port'] = 80;
         $this['request.https_port'] = 443;
         $this['debug'] = false;
         $this['charset'] = 'UTF-8';
         $this['logger'] = null;
-        $this['use_cache'] = true;
+        $this['use_cache'] = false;
 
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
@@ -57,8 +58,8 @@ class Application extends Container implements HttpKernelInterface
             return new HttpKernel($app['dispatcher'], $app['resolver']);
         };
 
-        $this->register(new ConfigServiceProvider());
-        $this->register(new RoutingServiceProvider());
+        $this->register(new ConfigServiceProvider($app));
+        $this->register(new RoutingServiceProvider($app));
 
         foreach ($values as $key => $value) {
             $this[$key] = $value;
@@ -74,7 +75,7 @@ class Application extends Container implements HttpKernelInterface
      *
      * @return $this|static
      */
-    public function register(ServiceProviderInterface $provider, array $values = array())
+    public function register(ServiceProviderInterface $provider, array $values = [])
     {
         $this->providers[] = $provider;
 
@@ -109,8 +110,20 @@ class Application extends Container implements HttpKernelInterface
         }
 
         $this['request'] = $request;
+        echo $this['request']->server->get('DOCUMENT_ROOT');
+//        exit;
 
-        return $this['kernel']->handle($request, $type, $catch);
+        $request->attributes->add($this['url_matcher']->match($request->getPathInfo()));
+
+        $controller = $this['resolver']->getController($request);
+        $arguments = $this['resolver']->getArguments($request, $controller);
+
+
+        return call_user_func_array($controller, $arguments);
+
+
+        //return $this['router']->matchRequest($request);
+        //return $this['kernel']->handle($request, $type, $catch);
     }
 
     /**
@@ -125,8 +138,13 @@ class Application extends Container implements HttpKernelInterface
         }
 
         $response = $this->handle($request);
-        //$response->send();
-        //$this->terminate($request, $response);
+        print_r($response);
+        //echo $response->getExpires();
+        //var_dump($response);
+        //exit;
+
+        $response->send();
+        $this->terminate($request, $response);
     }
 
     /**
@@ -145,6 +163,21 @@ class Application extends Container implements HttpKernelInterface
     public function getProviders()
     {
         return $this->providers;
+    }
+
+    /**
+     * Get root directory
+     *
+     * @return string
+     */
+    public function getRootDir()
+    {
+        static $dir;
+        if (empty($dir)) {
+            $rc = new \ReflectionClass(get_class($this));
+            $dir = dirname(dirname($rc->getFileName()));
+        }
+        return $dir;
     }
 
 }
