@@ -9,6 +9,7 @@ use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -60,6 +61,8 @@ class Application extends Container implements HttpKernelInterface
 
         $this->register(new ConfigServiceProvider($app));
         $this->register(new RoutingServiceProvider($app));
+
+        $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
 
         foreach ($values as $key => $value) {
             $this[$key] = $value;
@@ -113,7 +116,7 @@ class Application extends Container implements HttpKernelInterface
         echo $this['request']->server->get('DOCUMENT_ROOT');
 //        exit;
 
-        $request->attributes->add($this['url_matcher']->match($request->getPathInfo()));
+        $request->attributes->add($this['matcher']->match($request->getPathInfo()));
 
         $controller = $this['resolver']->getController($request);
         $arguments = $this['resolver']->getArguments($request, $controller);

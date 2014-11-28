@@ -25,15 +25,6 @@ class RoutingServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         /**
-         *  Represents a set of route instances.
-         *
-         * @return RouteCollection
-         */
-        /*$app['routes'] = function () use ($app) {
-            return new routecollection();
-        };*/
-
-        /**
          * Holds information about the current request
          *
          * @return RequestContext
@@ -53,18 +44,9 @@ class RoutingServiceProvider implements ServiceProviderInterface
          *
          * @return UrlMatcher
          */
-        $app['url_matcher'] = function () use ($app) {
+        $app['matcher'] = function () use ($app) {
           return new UrlMatcher($app['router'], $app['request_context']);
         };
-
-//        /**
-//         * Generate a URL or a path for any route in the RouteCollection
-//         *
-//         * @return UrlGenerator
-//         */
-//        $app['url_generator'] = function () use ($app) {
-//            return new UrlGenerator($app['routes'], $app['request_context']);
-//        };
 
         /**
          * Router
