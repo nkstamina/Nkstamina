@@ -2,9 +2,10 @@
 
 namespace Nkstamina\Controller;
 
+use Nkstamina\Framework\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class MainController
+class MainController extends Controller
 {
     public function homepageAction()
     {
