@@ -21,8 +21,8 @@
         "symfony/config" : "2.5.*"
     },
     "autoload": {
-        "psr-0": {
-            "Framework": "src/"
+        "psr-4": {
+            "Nkstamina\\Framework": "src/"
         }
     },
     "extra": {
