@@ -113,20 +113,9 @@ class Application extends Container implements HttpKernelInterface
         }
 
         $this['request'] = $request;
-        echo $this['request']->server->get('DOCUMENT_ROOT');
-//        exit;
-
         $request->attributes->add($this['matcher']->match($request->getPathInfo()));
 
-        $controller = $this['resolver']->getController($request);
-        $arguments = $this['resolver']->getArguments($request, $controller);
-
-
-        return call_user_func_array($controller, $arguments);
-
-
-        //return $this['router']->matchRequest($request);
-        //return $this['kernel']->handle($request, $type, $catch);
+        return $this['kernel']->handle($request, $type, $catch);
     }
 
     /**
@@ -141,11 +130,6 @@ class Application extends Container implements HttpKernelInterface
         }
 
         $response = $this->handle($request);
-        print_r($response);
-        //echo $response->getExpires();
-        //var_dump($response);
-        //exit;
-
         $response->send();
         $this->terminate($request, $response);
     }
@@ -167,20 +151,4 @@ class Application extends Container implements HttpKernelInterface
     {
         return $this->providers;
     }
-
-    /**
-     * Get root directory
-     *
-     * @return string
-     */
-    public function getRootDir()
-    {
-        static $dir;
-        if (empty($dir)) {
-            $rc = new \ReflectionClass(get_class($this));
-            $dir = dirname(dirname($rc->getFileName()));
-        }
-        return $dir;
-    }
-
 }
