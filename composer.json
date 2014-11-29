@@ -21,8 +21,8 @@
         "symfony/config" : "2.5.*"
     },
     "autoload": {
-        "psr-4": {
-            "Framework": "src"
+        "psr-0": {
+            "Framework": "src/"
         }
     },
     "extra": {
