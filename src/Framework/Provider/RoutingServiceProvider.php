@@ -9,7 +9,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\Router;
-
+use Symfony\Component\Routing\Matcher\RedirectableUrlMatcher;
 
 /**
  * Class RoutingServiceProvider
@@ -19,6 +19,14 @@ use Symfony\Component\Routing\Router;
  */
 class RoutingServiceProvider implements ServiceProviderInterface
 {
+    const CACHE_DIRECTORY  = 'cache';
+
+    // to switch between prod & dev
+    // just set the APP_ENV environment variable:
+    // in apache: SetEnv APP_ENV dev
+    // in nginx with fcgi: fastcgi_param APP_ENV dev
+    const CONFIG_ROUTES_FILE = 'routing.yml';
+
     /**
      * {@inheritdoc}
      */
@@ -53,7 +61,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
          */
         $options = array(
             'cache_dir' => true === $app['use_cache']
-                    ? __DIR__ . '/' . ConfigServiceProvider::CACHE_DIRECTORY
+                    ? __DIR__ . '/' . self::CACHE_DIRECTORY
                     : null,
             'debug' => true
         );
@@ -61,7 +69,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
         $app['router'] = function () use ($app, $options) {
              $router = new Router(
                 $app['config_loader'],
-                sprintf(ConfigServiceProvider::CONFIG_ROUTES_FILE, $app['env']),
+                sprintf(self::CONFIG_ROUTES_FILE, $app['env']),
                 $options
             );
 
