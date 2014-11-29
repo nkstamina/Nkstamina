@@ -1,4 +1,8 @@
 homepage:
     path:     /
-    defaults: { _controller: LeapYearController::indexAction }
-#    defaults: { _controller: Nkstamina:Main:homepage }
+    defaults: { _controller: Nkstamina\Controller\MainController::homepageAction }
+
+
+extension:
+    path:     /extension
+    defaults: { _controller: Extension\Controller\ExtensionController::indexAction }
