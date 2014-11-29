@@ -13,18 +13,12 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
  */
 class ConfigServiceProvider implements ServiceProviderInterface
 {
-    const APP_DIRECTORY    = 'app';
-    const CONFIG_DIRECTORY = 'config';
-
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
-        echo dirname(dirname(__FILE__));
-        exit;
-        $path =  realpath(dirname(__DIR__) . '/../../../') . '/' . self::APP_DIRECTORY . '/' . self::CONFIG_DIRECTORY;
-        $configDirectories = [$path];
+        $configDirectories = [$app['config.dir']];
         $locator = new FileLocator($configDirectories);
 
         $app['config_loader'] = function () use ($app, $locator) {

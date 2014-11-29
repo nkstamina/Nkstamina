@@ -38,13 +38,22 @@ class Application extends Container implements HttpKernelInterface
 
         $app = $this;
 
-        $this['env'] = getenv('APP_ENV') ?: 'prod';
-        $this['request.http_port'] = 80;
+        $this['app.dir']    = realpath(__DIR__ . '/../');
+        $this['config.dir'] = $this['app.dir'] . '/config';
+        $this['cache.dir']  = $this['app.dir'] . '/cache';
+
+        // to switch between prod & dev
+        // just set the APP_ENV environment variable:
+        // in apache: SetEnv APP_ENV dev
+        // in nginx with fcgi: fastcgi_param APP_ENV dev
+        $this['env']                = getenv('APP_ENV') ? : 'prod';
+
+        $this['request.http_port']  = 80;
         $this['request.https_port'] = 443;
-        $this['debug'] = false;
-        $this['charset'] = 'UTF-8';
-        $this['logger'] = null;
-        $this['use_cache'] = false;
+        $this['debug']              = false;
+        $this['charset']            = 'UTF-8';
+        $this['logger']             = null;
+        $this['use_cache']          = false;
 
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
