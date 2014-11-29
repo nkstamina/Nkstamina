@@ -19,14 +19,6 @@ use Symfony\Component\Routing\Matcher\RedirectableUrlMatcher;
  */
 class RoutingServiceProvider implements ServiceProviderInterface
 {
-    const CACHE_DIRECTORY  = 'cache';
-
-    // to switch between prod & dev
-    // just set the APP_ENV environment variable:
-    // in apache: SetEnv APP_ENV dev
-    // in nginx with fcgi: fastcgi_param APP_ENV dev
-    const CONFIG_ROUTES_FILE = 'routing.yml';
-
     /**
      * {@inheritdoc}
      */
