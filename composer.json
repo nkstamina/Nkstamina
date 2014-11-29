@@ -20,11 +20,6 @@
         "symfony/event-dispatcher": "2.5.*",
         "symfony/config" : "2.5.*"
     },
-    "autoload": {
-        "psr-4": {
-            "Nkstamina\\Framework\\": "src/"
-        }
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "0.0-dev"
