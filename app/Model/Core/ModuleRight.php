@@ -3,7 +3,7 @@ namespace Nkstamina\Model\Core;
 
 /**
  * Class ModuleRight
- * 
+ *
  * @package Nkstamina\Model\Core
  */
 class ModuleRight

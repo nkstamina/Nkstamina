@@ -2,12 +2,16 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class Extension
+ * Class Block
  *
  * @package Nkstamina\Model\Core
  */
-class Extension
+class Block
 {
 
+    private $blockId;
+
     private $extensionId;
+
+    private $name;
 }

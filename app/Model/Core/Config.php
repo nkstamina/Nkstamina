@@ -3,7 +3,7 @@ namespace Nkstamina\Model\Core;
 
 /**
  * Class Config
- * 
+ *
  * @package Nkstamina\Model\Core
  */
 class Config

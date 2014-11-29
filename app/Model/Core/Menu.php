@@ -2,12 +2,16 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class Extension
+ * Class Menu
  *
  * @package Nkstamina\Model\Core
  */
-class Extension
+class Menu
 {
 
-    private $extensionId;
+    private $themeId;
+
+    private $menuId;
+
+    private $name;
 }

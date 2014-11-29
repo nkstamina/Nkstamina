@@ -14,4 +14,6 @@ class User
     private $userLogin;
 
     private $userPassword;
+
+    private $themeId;
 }
