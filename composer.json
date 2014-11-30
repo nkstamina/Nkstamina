@@ -16,10 +16,19 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.4.0"
+    },
+    "required-dev": {
         "nkstamina/framework": "dev-develop"
     },
     "autoload": {
         "psr-0": { "": "src/" }
+    },
+    "extra": {
+        "nkstamina-app-dir": "app",
+        "nkstamina-web-dir": "web",
+        "branch-alias": {
+            "dev-master": "0.0-dev"
+        }
     }
 }
