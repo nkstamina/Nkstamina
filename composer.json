@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "NkStamina\\Framework\\": "src/Framework"
+            "NkStamina\\Framework\\": "src/Framework/"
         }
     },
     "minimum-stability": "dev",
