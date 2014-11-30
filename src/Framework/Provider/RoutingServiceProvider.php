@@ -19,6 +19,9 @@ use Symfony\Component\Routing\Matcher\RedirectableUrlMatcher;
  */
 class RoutingServiceProvider implements ServiceProviderInterface
 {
+    const CACHE_DIRECTORY = 'cache';
+    const CONFIG_ROUTES_FILE = 'routing.yml';
+
     /**
      * {@inheritdoc}
      */
