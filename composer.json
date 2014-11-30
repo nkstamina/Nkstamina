@@ -19,6 +19,11 @@
         "php": ">=5.4.0",
         "nkstamina/framework": "dev-develop"
     },
+    "autoload": {
+        "psr-0": {
+            "": "extensions"
+        }
+    },
     "extra": {
         "nkstamina-app-dir": "app",
         "nkstamina-web-dir": "web",
