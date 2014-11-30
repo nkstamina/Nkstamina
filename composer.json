@@ -24,5 +24,8 @@
         "branch-alias": {
             "dev-master": "0.0-dev"
         }
+    },
+    "autoload": {
+        "psr-4": { "Nkstamina\\Framework\\": "src/" }
     }
 } 
