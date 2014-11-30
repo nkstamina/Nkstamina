@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "php": ">=5.4",
         "pimple/pimple": "~3.0",
         "symfony/finder": "2.5.*",
         "symfony/http-foundation": "2.5.*",
@@ -22,7 +23,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Nkstamina\\Framework\\": ""
+            "Nkstamina\\Framework\\": "src/"
         }
     },
     "target-dir": "Nkstamina/Framework",
