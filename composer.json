@@ -22,8 +22,8 @@
         "symfony/config": "2.5.*"
     },
     "autoload": {
-        "psr-0": {
-            "": "src/"
+        "psr-4": {
+            "Nkstamina\\": "src"
         }
     },
     "minimum-stability": "dev",
