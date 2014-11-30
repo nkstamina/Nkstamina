@@ -18,14 +18,18 @@
         "symfony/routing": "2.5.*",
         "symfony/yaml": "2.5.*",
         "symfony/event-dispatcher": "2.5.*",
-        "symfony/config" : "2.5.*"
+        "symfony/config": "2.5.*"
     },
+    "autoload": {
+        "psr-4": {
+            "Nkstamina\\Framework\\": ""
+        }
+    },
+    "target-dir": "Nkstamina/Framework",
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "0.0-dev"
         }
-    },
-    "autoload": {
-        "psr-0": { "Nkstamina\\Framework\\": "" }
     }
-} 
+}
