@@ -26,8 +26,7 @@
             "Framework": "src/"
         }
     },
-    "target-dir": "Nkstamina/Framework",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev",s
     "extra": {
         "branch-alias": {
             "dev-master": "0.0-dev"
