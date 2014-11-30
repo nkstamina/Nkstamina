@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Nkstamina\\Framework\\": "src/"
+            "Nkstamina\\Framework\\": "src/Framework/"
         }
     },
     "target-dir": "Nkstamina/Framework",
