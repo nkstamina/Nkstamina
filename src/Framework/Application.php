@@ -38,7 +38,8 @@ class Application extends Container implements HttpKernelInterface
 
         $app = $this;
 
-        $this['app.dir']    = realpath(__DIR__ . '/../');
+        $this['root.dir']    = realpath(__DIR__ . '/../../../../../');
+        $this['app.dir'] = $this['root.dir'] . '/app';
         $this['config.dir'] = $this['app.dir'] . '/config';
         $this['cache.dir']  = $this['app.dir'] . '/cache';
 
