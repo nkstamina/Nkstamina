@@ -2,8 +2,9 @@
 
 namespace Nkstamina\Framework\Controller;
 
+use Nkstamina\Framework\ControllerInterface;
 
-class Controller
+class Controller implements ControllerInterface
 {
     public function render()
     {
