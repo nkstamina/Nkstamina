@@ -26,6 +26,6 @@
         }
     },
     "autoload": {
-        "psr-4": { "Nkstamina\\Framework\\": "src/" }
+        "psr-0": { "Nkstamina\\Framework\\": "" }
     }
 } 
