@@ -4,5 +4,5 @@ homepage:
 
 
 extension:
-    path:     /extension
-    defaults: { _controller: Extension\Controller\ExtensionController::indexAction }
+    path:     /extension/{name}
+    defaults: { _controller: MyExtension\Controller\MyExtensionController::indexAction }
