@@ -6,14 +6,14 @@ The NkStamina Framework
 - [x] HttpFoundation
 - [x] ClassLoader
 - [x] Routing
-- [ ] HttpKernel
-- [ ] EventDispatcher
+- [x] HttpKernel
+- [x] EventDispatcher
 - [ ] Translation
 - [ ] Finder
 - [ ] Console
 - [ ] Templating
 - [ ] Stopwatch
-- [ ] Pimple
+- [x] Pimple
 - [ ] Password_compat
 
 
