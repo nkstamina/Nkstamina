@@ -8,6 +8,17 @@ Vous souhaitez nous aider? C'est facile, Forkez le projet :)
 Want to help? Please fork the project :) 
 
 
+## Installation
+---------------
+```
+git clone https://github.com/nkstamina/Nkstamina.git
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+
+Configurer votre serveur web.
+puis: http://localhost/index.php
+```
+
 ## NKstamina 2.0 Standard Plugins
 ---------------------------------
 - [ ] Easy Installer Plugin
