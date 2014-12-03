@@ -38,7 +38,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
         };
 
         $app['twig'] = function () use ($app) {
-            return new \Twig_Environment($app['environment']);
+            return new \Twig_Environment($app['twig.environment']);
         };
     }
 
