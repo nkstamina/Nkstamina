@@ -62,7 +62,7 @@ class Application extends Container implements HttpKernelInterface
 
         // twig
         $this['twig.cache.directory'] = "";
-        $this['twig.cache_templates'] = true;
+        $this['twig.cache_templates'] = false;
 
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
