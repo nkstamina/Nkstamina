@@ -5,6 +5,7 @@ namespace Nkstamina\Framework;
 use Nkstamina\Framework\Controller\ControllerResolver;
 use Nkstamina\Framework\Provider\ConfigServiceProvider;
 use Nkstamina\Framework\Provider\RoutingServiceProvider;
+use Nkstamina\Framework\Provider\TemplatingServiceProvider;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,6 +72,7 @@ class Application extends Container implements HttpKernelInterface
 
         $this->register(new ConfigServiceProvider($app));
         $this->register(new RoutingServiceProvider($app));
+        $this->register(new TemplatingServiceProvider($app));
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
 
