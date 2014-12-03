@@ -6,7 +6,7 @@ use Nkstamina\Framework\ControllerInterface;
 
 class Controller implements ControllerInterface
 {
-    private $app;
+    protected $app;
 
     public function __construct($app)
     {
