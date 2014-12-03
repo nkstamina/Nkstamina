@@ -9,9 +9,9 @@ The NkStamina Framework
 - [x] HttpKernel
 - [x] EventDispatcher
 - [ ] Translation
-- [ ] Finder
+- [x] Finder
 - [ ] Console
-- [ ] Templating
+- [x] Templating
 - [ ] Stopwatch
 - [x] Pimple
 - [ ] Password_compat
