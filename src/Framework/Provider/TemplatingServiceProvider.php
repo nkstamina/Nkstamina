@@ -3,42 +3,62 @@
 namespace Nkstamina\Framework\Provider;
 
 use Nkstamina\Framework\ServiceProviderInterface;
+use Nkstamina\Framework\Provider\Exception\InvalidTemplateDirectoryException;
 use Pimple\Container;
 
 class TemplatingServiceProvider implements ServiceProviderInterface
 {
+    const TEMPLATE_DIR_NAME = 'views';
+
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
-        $app['twig.cache.directory'] = "";
+
         $app['twig.path']            = array();
         $app['twig.templates']       = array();
 
-        $app['twig.loader.filesystem'] = function () use ($app) {
-            return new \Twig_Loader_Filesystem($app['twig.path']);
-        };
+        $app['twig.loader'] = function () use ($app) {
+            $loaders = [];
 
-        $app['twig.loader.array'] = function () use ($app) {
-            return new \Twig_Loader_Array($app['twig.templates']);
+            $twigFs = new \Twig_Loader_Filesystem();
+            foreach ($app['app.extensions'] as $extension => $info) {
+                $templateViewDirectory = $info['pathName'] . '/' . self::TEMPLATE_DIR_NAME;
+
+                if (!is_dir($templateViewDirectory)) {
+                    throw new InvalidTemplateDirectoryException(sprintf(
+                        '"%s" is not a director', // @wip we must translate this!
+                        $templateViewDirectory
+                    ));
+                }
+
+                $twigFs->addPath($templateViewDirectory);
+            }
+
+            $loaders[] = $twigFs;
+            $loaders[] = new \Twig_Loader_Array($app['twig.templates']);
+
+            return new \Twig_Loader_Chain($loaders);
         };
 
         $app['twig.environment'] = function () use ($app) {
+            if ($app['twig.cache_templates']) {
+                if (!is_dir($app['twig.cache.directory']) OR !is_readable($app['twig.cache.directory'])) {
+                    throw new \Exception(sprintf(
+                        '%s is not readable or does not exit', // @wip we must translate this!
+                        $app['twig.cache.directory']
+                    ));
+                }
+            }
+
             return new \Twig_Environment($app['twig.loader'], array(
                 'cache' => $app['twig.cache.directory']
             ));
         };
 
-        $app['twig.loader'] = function () use ($app) {
-            new \Twig_Loader_Chain(array(
-                $app['twig.loader.filesystem'],
-                $app['twig.loader.array']
-            ));
-        };
-
         $app['twig'] = function () use ($app) {
-            return new \Twig_Environment($app['twig.environment']);
+            return $app['twig.environment'];
         };
     }
 
