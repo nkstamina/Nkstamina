@@ -12,7 +12,34 @@ class TemplatingServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        // TODO: Implement register() method.
+        $app['twig.cache.directory'] = "";
+        $app['twig.path']            = array();
+        $app['twig.templates']       = array();
+
+        $app['twig.loader.filesystem'] = function () use ($app) {
+            return new \Twig_Loader_Filesystem($app['twig.path']);
+        };
+
+        $app['twig.loader.array'] = function () use ($app) {
+            return new \Twig_Loader_Array($app['twig.templates']);
+        };
+
+        $app['twig.environment'] = function () use ($app) {
+            return new \Twig_Environment($app['twig.loader'], array(
+                'cache' => $app['twig.cache.directory']
+            ));
+        };
+
+        $app['twig.loader'] = function () use ($app) {
+            new \Twig_Loader_Chain(array(
+                $app['twig.loader.filesystem'],
+                $app['twig.loader.array']
+            ));
+        };
+
+        $app['twig'] = function () use ($app) {
+            return new \Twig_Environment($app['environment']);
+        };
     }
 
     /**
@@ -20,7 +47,6 @@ class TemplatingServiceProvider implements ServiceProviderInterface
      */
     public function boot(Container $app)
     {
-        // TODO: Implement boot() method.
     }
 
     /**
@@ -30,5 +56,4 @@ class TemplatingServiceProvider implements ServiceProviderInterface
     {
         return 'templating_service_provider';
     }
-
 } 
