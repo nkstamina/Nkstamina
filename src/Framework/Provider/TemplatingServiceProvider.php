@@ -22,13 +22,13 @@ class TemplatingServiceProvider implements ServiceProviderInterface
         $app['twig.loader'] = function () use ($app) {
             $loaders = [];
 
-            $twigFs = new \Twig_Loader_Filesystem();
+            $twigLoaderFs = new \Twig_Loader_Filesystem();
             foreach ($app['app.extensions'] as $extension => $info) {
                 $templateViewDirectory = $info['pathName'] . '/' . self::TEMPLATE_DIR_NAME;
 
                 if (!is_dir($templateViewDirectory)) {
                     throw new InvalidTemplateDirectoryException(sprintf(
-                        '"%s" is not a director', // @wip we must translate this!
+                        '"%s" is not a directory', // @wip do we have to translate this?
                         $templateViewDirectory
                     ));
                 }
@@ -36,7 +36,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
                 $twigFs->addPath($templateViewDirectory);
             }
 
-            $loaders[] = $twigFs;
+            $loaders[] = $twigLoaderFs;
             $loaders[] = new \Twig_Loader_Array($app['twig.templates']);
 
             return new \Twig_Loader_Chain($loaders);
@@ -46,7 +46,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
             if ($app['twig.cache_templates']) {
                 if (!is_dir($app['twig.cache.directory']) OR !is_readable($app['twig.cache.directory'])) {
                     throw new \Exception(sprintf(
-                        '%s is not readable or does not exit', // @wip we must translate this!
+                        'Directory "%s" is not readable or does not exit', // @wip do we have to translate this?
                         $app['twig.cache.directory']
                     ));
                 }

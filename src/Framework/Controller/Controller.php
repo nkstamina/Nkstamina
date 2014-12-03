@@ -6,7 +6,7 @@ use Nkstamina\Framework\Application;
 use Nkstamina\Framework\ControllerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class controller implements ControllerInterface
+class Controller implements ControllerInterface
 {
     /**
      * @var Application
