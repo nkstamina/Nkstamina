@@ -33,7 +33,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
                     ));
                 }
 
-                $twigFs->addPath($templateViewDirectory);
+                $twigLoaderFs->addPath($templateViewDirectory);
             }
 
             $loaders[] = $twigLoaderFs;
@@ -43,18 +43,17 @@ class TemplatingServiceProvider implements ServiceProviderInterface
         };
 
         $app['twig.environment'] = function () use ($app) {
-            if ($app['twig.cache_templates']) {
-                if (!is_dir($app['twig.cache.directory']) OR !is_readable($app['twig.cache.directory'])) {
-                    throw new \Exception(sprintf(
-                        'Directory "%s" is not readable or does not exit', // @wip do we have to translate this?
-                        $app['twig.cache.directory']
-                    ));
-                }
+            $isTemplateMustBeCached = $app['twig.cache_templates'];
+            $templateCacheDirectory = $app['twig.cache.directory'];
+
+            $options = [];
+            if ($isTemplateMustBeCached &&
+                $this->isTemplateCacheDirectoryValid($templateCacheDirectory)) {
+
+                $options = ['cache' => $templateCacheDirectory];
             }
 
-            return new \Twig_Environment($app['twig.loader'], array(
-                'cache' => $app['twig.cache.directory']
-            ));
+            return new \Twig_Environment($app['twig.loader'], $options);
         };
 
         $app['twig'] = function () use ($app) {
@@ -75,5 +74,25 @@ class TemplatingServiceProvider implements ServiceProviderInterface
     public function getName()
     {
         return 'templating_service_provider';
+    }
+
+    /**
+     * Check if template cache directory is valid
+     *
+     * @param string $directory
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    private function isTemplateCacheDirectoryValid($directory)
+    {
+        if (!is_dir($directory) OR !is_readable($directory)) {
+            throw new \Exception(sprintf(
+                'Directory "%s" is not readable or does not exit', // @wip do we have to translate this?
+                $directory
+            ));
+        }
+
+        return true;
     }
 } 
