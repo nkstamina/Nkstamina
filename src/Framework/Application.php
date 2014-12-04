@@ -28,6 +28,8 @@ class Application extends Container implements HttpKernelInterface
     protected $providers = [];
     protected $booted = false;
 
+    protected $extensions = [];
+
     /**
      * Constructor
      *
@@ -39,10 +41,11 @@ class Application extends Container implements HttpKernelInterface
 
         $app = $this;
 
-        $this['root.dir']    = realpath(__DIR__ . '/../../../../../');
-        $this['app.dir'] = $this['root.dir'] . '/app';
-        $this['config.dir'] = $this['app.dir'] . '/config';
-        $this['cache.dir']  = $this['app.dir'] . '/cache';
+        $this['app.root.dir']       = realpath(__DIR__ . '/../../../../../');
+        $this['app.extensions.dir'] = $this['app.root.dir'] . '/extensions';
+        $this['app.dir']            = $this['app.root.dir'] . '/app';
+        $this['app.config.dir']     = $this['app.dir'] . '/config';
+        $this['app.cache.dir']      = $this['app.dir'] . '/cache';
 
         // to switch between prod & dev
         // just set the APP_ENV environment variable:
@@ -50,12 +53,16 @@ class Application extends Container implements HttpKernelInterface
         // in nginx with fcgi: fastcgi_param APP_ENV dev
         $this['env']                = getenv('APP_ENV') ? : 'prod';
 
-        $this['request.http_port']  = 80;
-        $this['request.https_port'] = 443;
-        $this['debug']              = false;
-        $this['charset']            = 'UTF-8';
-        $this['logger']             = null;
-        $this['use_cache']          = false;
+        $this['request.http_port']    = 80;
+        $this['request.https_port']   = 443;
+        $this['debug']                = false;
+        $this['charset']              = 'UTF-8';
+        $this['logger']               = null;
+        $this['use_cache']            = false;
+
+        // twig
+        $this['twig.cache.directory'] = "";
+        $this['twig.cache_templates'] = false;
 
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
@@ -75,6 +82,29 @@ class Application extends Container implements HttpKernelInterface
         $this->register(new TemplatingServiceProvider($app));
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
+
+        $this['app.extensions'] = function () use ($app) {
+            $finder = new Finder();
+            $directories = $finder
+                ->ignoreUnreadableDirs()
+                ->directories()
+                ->name('*Extension')
+                ->in($app['app.extensions.dir'])
+                ->depth('< 3')
+                ->sortByName()
+            ;
+
+            $extensions = [];
+            foreach($directories as $directory) {
+                $extensionName = $directory->getRelativePathname();
+                $extensions[$extensionName]['name'] = $extensionName;
+                $extensions[$extensionName]['pathName'] = $directory->getPathName();
+            }
+
+            $this->extensions = $extensions;
+
+            return $extensions;
+        };
 
         foreach ($values as $key => $value) {
             $this[$key] = $value;
@@ -155,12 +185,22 @@ class Application extends Container implements HttpKernelInterface
     }
 
     /**
-     * Returns providers
+     * Return an array of all providers loaded
      *
      * @return array
      */
     public function getProviders()
     {
         return $this->providers;
+    }
+
+    /**
+     * Return an array of all extensions loaded
+     *
+     * @return array
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
     }
 }

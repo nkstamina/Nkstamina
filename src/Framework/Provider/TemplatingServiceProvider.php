@@ -3,42 +3,61 @@
 namespace Nkstamina\Framework\Provider;
 
 use Nkstamina\Framework\ServiceProviderInterface;
+use Nkstamina\Framework\Provider\Exception\InvalidTemplateDirectoryException;
 use Pimple\Container;
 
 class TemplatingServiceProvider implements ServiceProviderInterface
 {
+    const TEMPLATE_DIR_NAME = 'views';
+
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
-        $app['twig.cache.directory'] = "";
+
         $app['twig.path']            = array();
         $app['twig.templates']       = array();
 
-        $app['twig.loader.filesystem'] = function () use ($app) {
-            return new \Twig_Loader_Filesystem($app['twig.path']);
-        };
+        $app['twig.loader'] = function () use ($app) {
+            $loaders = [];
 
-        $app['twig.loader.array'] = function () use ($app) {
-            return new \Twig_Loader_Array($app['twig.templates']);
+            $twigLoaderFs = new \Twig_Loader_Filesystem();
+            foreach ($app['app.extensions'] as $extension => $info) {
+                $templateViewDirectory = $info['pathName'] . '/' . self::TEMPLATE_DIR_NAME;
+
+                if (!is_dir($templateViewDirectory)) {
+                    throw new InvalidTemplateDirectoryException(sprintf(
+                        '"%s" is not a directory', // @wip do we have to translate this?
+                        $templateViewDirectory
+                    ));
+                }
+
+                $twigLoaderFs->addPath($templateViewDirectory);
+            }
+
+            $loaders[] = $twigLoaderFs;
+            $loaders[] = new \Twig_Loader_Array($app['twig.templates']);
+
+            return new \Twig_Loader_Chain($loaders);
         };
 
         $app['twig.environment'] = function () use ($app) {
-            return new \Twig_Environment($app['twig.loader'], array(
-                'cache' => $app['twig.cache.directory']
-            ));
-        };
+            $isTemplateMustBeCached = $app['twig.cache_templates'];
+            $templateCacheDirectory = $app['twig.cache.directory'];
 
-        $app['twig.loader'] = function () use ($app) {
-            new \Twig_Loader_Chain(array(
-                $app['twig.loader.filesystem'],
-                $app['twig.loader.array']
-            ));
+            $options = [];
+            if ($isTemplateMustBeCached &&
+                $this->isTemplateCacheDirectoryValid($templateCacheDirectory)) {
+
+                $options = ['cache' => $templateCacheDirectory];
+            }
+
+            return new \Twig_Environment($app['twig.loader'], $options);
         };
 
         $app['twig'] = function () use ($app) {
-            return new \Twig_Environment($app['twig.environment']);
+            return $app['twig.environment'];
         };
     }
 
@@ -55,5 +74,25 @@ class TemplatingServiceProvider implements ServiceProviderInterface
     public function getName()
     {
         return 'templating_service_provider';
+    }
+
+    /**
+     * Check if template cache directory is valid
+     *
+     * @param string $directory
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    private function isTemplateCacheDirectoryValid($directory)
+    {
+        if (!is_dir($directory) OR !is_readable($directory)) {
+            throw new \Exception(sprintf(
+                'Directory "%s" is not readable or does not exit', // @wip do we have to translate this?
+                $directory
+            ));
+        }
+
+        return true;
     }
 } 
