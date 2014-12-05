@@ -84,6 +84,7 @@ class Application extends Container implements HttpKernelInterface
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
 
+        // load extensions
         $this['app.extensions'] = function () use ($app) {
             $finder = new Finder();
             $directories = $finder
