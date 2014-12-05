@@ -8,7 +8,7 @@ use Pimple\Container;
 
 class TemplatingServiceProvider implements ServiceProviderInterface
 {
-    const TEMPLATE_DIR_NAME = 'views';
+    const TEMPLATE_DIR_NAME = 'Views';
 
     /**
      * {@inheritdoc}
