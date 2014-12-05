@@ -33,7 +33,10 @@ class TemplatingServiceProvider implements ServiceProviderInterface
                     ));
                 }
 
-                $twigLoaderFs->addPath($templateViewDirectory);
+                $currentController = $app['request']->get('_controller');
+                if (strstr($currentController, '\\', true) === $info['name']) {
+                    $twigLoaderFs->addPath($templateViewDirectory);
+                }
             }
 
             $loaders[] = $twigLoaderFs;
