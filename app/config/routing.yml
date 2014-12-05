@@ -1,6 +1,6 @@
 homepage:
     path:     /
-    defaults: { _controller: Nkstamina\Controller\MainController::homepageAction }
+    defaults: { _controller: NkstaminaExtension\Controller\MainController::homepageAction }
 
 
 extension:
