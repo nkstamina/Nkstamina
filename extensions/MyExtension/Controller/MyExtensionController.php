@@ -10,6 +10,6 @@ class MyExtensionController extends FrameworkController
 {
     public function indexAction($name)
     {
-        return new Response($name, 200);
+        return $this->render('index.html.twig');
     }
 } 
