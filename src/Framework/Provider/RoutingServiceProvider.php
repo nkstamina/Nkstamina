@@ -63,7 +63,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
         $app['router'] = function () use ($app, $options) {
              $router = new Router(
-                $app['config_loader'],
+                $app['config.loader'],
                 sprintf(self::CONFIG_ROUTES_FILE, $app['env']),
                 $options
             );
