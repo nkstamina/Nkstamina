@@ -27,9 +27,8 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 
             $twigLoaderFs = new \Twig_Loader_Filesystem();
             foreach ($app['app.extensions'] as $info) {
-                $templateViewDirectory = $info['pathName'].'/'.self::TEMPLATE_DIR_NAME;
 
-                if (!is_dir($templateViewDirectory)) {
+                if (!is_dir($templateViewDirectory = $info['pathName'].'/'.self::TEMPLATE_DIR_NAME)) {
                     throw new InvalidTemplateDirectoryException(sprintf(
                         '"%s" is not a directory', // @wip do we have to translate this?
                         $templateViewDirectory
