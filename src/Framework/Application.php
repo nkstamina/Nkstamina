@@ -2,6 +2,7 @@
 
 namespace Nkstamina\Framework;
 
+use Nkstamina\Framework\Common\Utils;
 use Nkstamina\Framework\Controller\ControllerResolver;
 use Nkstamina\Framework\Provider\ConfigServiceProvider;
 use Nkstamina\Framework\Provider\RoutingServiceProvider;
@@ -14,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Application
@@ -79,6 +83,32 @@ class Application extends Container implements HttpKernelInterface
         $this->register(new ConfigServiceProvider($app));
         $this->register(new RoutingServiceProvider($app));
         $this->register(new TemplatingServiceProvider($app));
+
+        // loads App configuration parameters
+        $this['app.parameters'] = function () use ($app) {
+            $parameters = [];
+
+            if (Utils::isDirectoryValid($app['app.config.dir'])) {
+                $files = $app['config.finder']
+                    ->files()
+                    ->in($app['app.config.dir'])
+                ;
+
+                $yaml = $app['config.parser'];
+
+                foreach($files as $file) {
+                    try {
+                        $parameters = [$yaml->parse(file_get_contents($file->getRelativePathname()))];
+                    } catch(ParseException $e) {
+                        printf("Unable to parse the YAML string: %s", $e->getMessage());
+                    }
+                }
+            }
+
+            return $parameters;
+        };
+
+        // at last, register extensions
         $this->register(new ExtensionServiceProvider($app));
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
@@ -162,7 +192,7 @@ class Application extends Container implements HttpKernelInterface
     }
 
     /**
-     * Return an array of all providers loaded
+     * Returns an array of all providers loaded
      *
      * @return array
      */
@@ -172,12 +202,25 @@ class Application extends Container implements HttpKernelInterface
     }
 
     /**
-     * Return an array of all extensions loaded
+     * Sets a value for a key
      *
-     * @return array
+     * @param $key
+     * @param $value
      */
-    public function getExtensions()
+    public function setValue($key, $value)
     {
-        return $this->extensions;
+        $this[$key] = $value;
+    }
+
+    /**
+     * Returns a specific value for a key
+     *
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function getValue($key)
+    {
+        return $this[$key];
     }
 }
