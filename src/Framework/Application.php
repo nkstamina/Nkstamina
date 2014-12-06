@@ -6,6 +6,7 @@ use Nkstamina\Framework\Controller\ControllerResolver;
 use Nkstamina\Framework\Provider\ConfigServiceProvider;
 use Nkstamina\Framework\Provider\RoutingServiceProvider;
 use Nkstamina\Framework\Provider\TemplatingServiceProvider;
+use Nkstamina\Framework\Provider\ExtensionServiceProvider;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Class Application
@@ -81,32 +81,9 @@ class Application extends Container implements HttpKernelInterface
         $this->register(new ConfigServiceProvider($app));
         $this->register(new RoutingServiceProvider($app));
         $this->register(new TemplatingServiceProvider($app));
+        $this->register(new ExtensionServiceProvider($app));
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
-
-        // load extensions
-        $this['app.extensions'] = function () use ($app) {
-            $finder = new Finder();
-            $directories = $finder
-                ->ignoreUnreadableDirs()
-                ->directories()
-                ->name('*Extension')
-                ->in($app['app.extensions.dir'])
-                ->depth('< 3')
-                ->sortByName()
-            ;
-
-            $extensions = [];
-            foreach($directories as $directory) {
-                $extensionName = $directory->getRelativePathname();
-                $extensions[$extensionName]['name'] = $extensionName;
-                $extensions[$extensionName]['pathName'] = $directory->getPathName();
-            }
-
-            $this->extensions = $extensions;
-
-            return $extensions;
-        };
 
         foreach ($values as $key => $value) {
             $this[$key] = $value;
