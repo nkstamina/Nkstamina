@@ -6,6 +6,10 @@ use Nkstamina\Framework\ServiceProviderInterface;
 use Nkstamina\Framework\Provider\Exception\InvalidTemplateDirectoryException;
 use Pimple\Container;
 
+/**
+ * Class TemplatingServiceProvider
+ * @package Nkstamina\Framework\Provider
+ */
 class TemplatingServiceProvider implements ServiceProviderInterface
 {
     const TEMPLATE_DIR_NAME = 'Views';
@@ -15,7 +19,6 @@ class TemplatingServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-
         $app['twig.path']            = array();
         $app['twig.templates']       = array();
 
@@ -23,8 +26,8 @@ class TemplatingServiceProvider implements ServiceProviderInterface
             $loaders = [];
 
             $twigLoaderFs = new \Twig_Loader_Filesystem();
-            foreach ($app['app.extensions'] as $extension => $info) {
-                $templateViewDirectory = $info['pathName'] . '/' . self::TEMPLATE_DIR_NAME;
+            foreach ($app['app.extensions'] as $info) {
+                $templateViewDirectory = $info['pathName'].'/'.self::TEMPLATE_DIR_NAME;
 
                 if (!is_dir($templateViewDirectory)) {
                     throw new InvalidTemplateDirectoryException(sprintf(
@@ -36,6 +39,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
                 $currentController = $app['request']->get('_controller');
                 if (strstr($currentController, '\\', true) === $info['name']) {
                     $twigLoaderFs->addPath($templateViewDirectory);
+                    break;
                 }
             }
 
