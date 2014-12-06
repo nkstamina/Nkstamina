@@ -12,13 +12,15 @@ use Symfony\Component\Finder\Finder;
  */
 class ExtensionServiceProvider implements ServiceProviderInterface
 {
+    protected $extensions = [];
+
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
         // load extensions
-        $this['app.extensions'] = function () use ($app) {
+        $app['app.extensions'] = function () use ($app) {
             $finder = new Finder();
             $directories = $finder
                 ->ignoreUnreadableDirs()

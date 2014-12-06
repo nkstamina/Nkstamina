@@ -29,8 +29,6 @@ class Application extends Container implements HttpKernelInterface
     protected $providers = [];
     protected $booted = false;
 
-    protected $extensions = [];
-
     /**
      * Constructor
      *
