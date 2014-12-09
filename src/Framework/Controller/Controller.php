@@ -6,6 +6,10 @@ use Nkstamina\Framework\Application;
 use Nkstamina\Framework\ControllerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class Controller
+ * @package Nkstamina\Framework\Controller
+ */
 class Controller implements ControllerInterface
 {
     /**
