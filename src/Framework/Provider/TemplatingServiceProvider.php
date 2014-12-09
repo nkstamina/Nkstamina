@@ -26,7 +26,8 @@ class TemplatingServiceProvider implements ServiceProviderInterface
             $loaders = [];
 
             $twigLoaderFs = new \Twig_Loader_Filesystem();
-            foreach ($app['app.extensions'] as $info) {
+
+            foreach ($app['extensions'] as $info) {
 
                 if (!is_dir($templateViewDirectory = $info['pathName'].'/'.self::TEMPLATE_DIR_NAME)) {
                     throw new InvalidTemplateDirectoryException(sprintf(
@@ -36,6 +37,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
                 }
 
                 $currentController = $app['request']->get('_controller');
+
                 if (strstr($currentController, '\\', true) === $info['name']) {
                     $twigLoaderFs->addPath($templateViewDirectory);
                     break;
