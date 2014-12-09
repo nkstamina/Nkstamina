@@ -45,10 +45,10 @@ class Application extends Container implements HttpKernelInterface
         $app = $this;
 
         $this['app.root.dir']       = realpath(__DIR__ . '/../../../../../');
-        $this['app.extensions.dir'] = $this['app.root.dir'] . '/extensions';
-        $this['app.dir']            = $this['app.root.dir'] . '/app';
-        $this['app.config.dir']     = $this['app.dir'] . '/config';
-        $this['app.cache.dir']      = $this['app.dir'] . '/cache';
+        $this['app.extensions.dir'] = $app['app.root.dir'] . '/extensions';
+        $this['app.dir']            = $app['app.root.dir'] . '/app';
+        $this['app.config.dir']     = $app['app.dir'] . '/config';
+        $this['app.cache.dir']      = $app['app.dir'] . '/cache';
 
         // to switch between prod & dev
         // just set the APP_ENV environment variable:
@@ -80,9 +80,15 @@ class Application extends Container implements HttpKernelInterface
             return new HttpKernel($app['dispatcher'], $app['resolver']);
         };
 
+        $this['request_error'] = $this->protect(function () {
+            throw new \RuntimeException('Accessed request service outside of request scope. Try moving that call to a before handler or controller.');
+        });
+        $this['request'] = $this['request_error'];
+
         $this->register(new ConfigServiceProvider($app));
         $this->register(new RoutingServiceProvider($app));
         $this->register(new TemplatingServiceProvider($app));
+        $this->register(new ExtensionServiceProvider($app));
 
         // loads App configuration parameters
         $this['app.parameters'] = function () use ($app) {
@@ -98,7 +104,8 @@ class Application extends Container implements HttpKernelInterface
 
                 foreach($files as $file) {
                     try {
-                        $parameters = [$yaml->parse(file_get_contents($file->getRelativePathname()))];
+                        $parameters[$file->getRelativePathname()] = [$yaml->parse(file_get_contents($file->getRealpath()))];
+
                     } catch(ParseException $e) {
                         printf("Unable to parse the YAML string: %s", $e->getMessage());
                     }
@@ -108,8 +115,19 @@ class Application extends Container implements HttpKernelInterface
             return $parameters;
         };
 
-        // at last, register extensions
-        $this->register(new ExtensionServiceProvider($app));
+
+        echo "<pre>";
+        print_r($this['app.parameters']);
+        print_r($app['extensions']);
+
+//        $this['parameters'] = function() use ($app) {
+//            $parameters = array_merge($app['app.parameters'], $app['extension.parameters']);
+//
+//            return $parameters;
+//        };
+//
+//        var_dump($this['parameters']);
+
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
 
@@ -161,10 +179,17 @@ class Application extends Container implements HttpKernelInterface
             $this->boot();
         }
 
+        $current = HttpKernelInterface::SUB_REQUEST === $type ? $this['request'] : $this['request_error'];
+
         $this['request'] = $request;
+
         $request->attributes->add($this['matcher']->match($request->getPathInfo()));
 
-        return $this['kernel']->handle($request, $type, $catch);
+        $response =  $this['kernel']->handle($request, $type, $catch);
+
+        $this['request'] = $current;
+
+        return $response;
     }
 
     /**
