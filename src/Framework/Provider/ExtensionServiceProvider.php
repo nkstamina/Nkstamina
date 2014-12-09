@@ -4,6 +4,7 @@ namespace Nkstamina\Framework\Provider;
 
 use Nkstamina\Framework\Common\Utils;
 use Nkstamina\Framework\ServiceProviderInterface;
+use Nkstamina\Framework\Provider\Exception\InvalidConfigurationException;
 use Pimple\Container;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -23,37 +24,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['extensions.dir'] = function () use ($app) {
-            $directories = $this->getExtensionsDirectories($app);
-            $extensions = [];
-
-            foreach($directories as $directory) {
-                $extensionName = $directory->getRelativePathname();
-                $extensions[$extensionName]['name'] = $extensionName;
-                $extensions[$extensionName]['pathName'] = $directory->getPathName();
-            }
-
-            $this->extensions = $extensions;
-
-            return $extensions;
+        $app['extensions'] = function () use ($app) {
+            // Get extensions directories
+            return $this->getExtensions($app);
         };
-
-
-        $app['extension.parameters'] = function () use ($app) {
-            // loads extension's yaml parameters
-            if ($this->isConfigDirectoryValid(static::$expectedDirectories['Config'])) {
-                $parameters = $this->getExtensionConfigParameters($app);
-
-
-                // now override app parameters
-
-
-                return $parameters;
-            }
-        };
-
-
-
     }
 
     /**
@@ -72,15 +46,36 @@ class ExtensionServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Checks if config directory exists and readable
+     * Return an array of extensions
      *
-     * @param $directory
+     * @param Container $app
      *
-     * @return bool
+     * @return array
      */
-    private function isConfigDirectoryValid($directory)
+    public function getExtensions(Container $app)
     {
-        return Utils::isDirectoryValid($directory);
+        $directories = $this->findExtensionsDirectories($app);
+
+        foreach ($directories as $directory) {
+            $extensionName                                  = $directory->getRelativePathname();
+            $this->extensions[$extensionName]['name']       = $extensionName;
+            $this->extensions[$extensionName]['pathName']   = $directory->getPathName();
+            $this->extensions[$extensionName]['parameters'] = $this->findExtensionParameters($app, $directory);
+        }
+
+        return $this->extensions;
+    }
+
+    /**
+     * Returns all parameters related to an extension
+     *
+     * @param $extensionName
+     *
+     * @return mixed
+     */
+    public function getExtensionParameters($extensionName)
+    {
+        return $this->extensions[$extensionName]['parameters'];
     }
 
     /**
@@ -90,7 +85,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
      *
      * @return Finder
      */
-    private function getExtensionsDirectories(Container $app)
+    private function findExtensionsDirectories(Container $app)
     {
         $directories = $app['config.finder']
             ->ignoreUnreadableDirs()
@@ -108,36 +103,38 @@ class ExtensionServiceProvider implements ServiceProviderInterface
      * Return config parameters for the current extension
      *
      * @param Container $app
+     * @param           $directory
+     *
+     * @throws Exception\InvalidConfigurationException
      *
      * @return array
      */
-    private function getExtensionConfigParameters(Container $app)
+    private function findExtensionParameters(Container $app, $directory)
     {
         $parameters = [];
         $yaml = $app['config.parser'];
 
         $files = $app['config.finder']
             ->files()
-            ->in($app['app.extensions']['']);
+            ->name('*.yml')
+            ->in($directory->getPathName())
+        ;
 
         foreach ($files as $file) {
+
             try {
-                $parameters = [$yaml->parse(file_get_contents($file->getRelativePathname()))];
+                $parameters[$file->getRelativePathname()] = [$yaml->parse(file_get_contents($file->getPathName()))];
+
             } catch(ParseException $e) {
                 printf("Unable to parse the YAML string: %s", $e->getMessage());
             }
+
+            // @wip do we have to translate this?
+            /*if (!isset($parameters[$file->getRelativePathname()][0]['parameters'])) {
+                throw new InvalidConfigurationException(sprintf('The key "parameters" must be defined in your file %s', $file->getPathName()));
+            }*/
         }
 
         return $parameters;
-    }
-
-    /**
-     * Returns an array of all extensions loaded
-     *
-     * @return array
-     */
-    public function getExtensions()
-    {
-        return $this->extensions;
     }
 } 
