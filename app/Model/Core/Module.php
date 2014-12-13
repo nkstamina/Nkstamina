@@ -2,12 +2,10 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class Module
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class Module
 {
 
-    private $moduleId;
+    protected $moduleId;
 }

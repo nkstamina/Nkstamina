@@ -8,10 +8,20 @@ namespace Nkstamina\Model\Core;
  */
 class Config
 {
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $configId;
+    /**
+     * @ORM\Column(name="key", type="string", length=255)
+     */
+    protected $key;
 
-    private $configKey;
-
-    private $configValue;
+    /**
+     * @ORM\Column(name="value", type="string", length=255)
+     */
+    protected $value;
 }

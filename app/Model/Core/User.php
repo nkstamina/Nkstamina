@@ -2,18 +2,35 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class User
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class User
 {
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $userId;
+    /**
+     * @ORM\Column(name="login", type="string", length=255)
+     */
+    protected $login;
 
-    private $userLogin;
+    /**
+     * @ORM\Column(name="password", type="string", length=255)
+     */
+    protected $password;
 
-    private $userPassword;
-
-    private $themeId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\Theme", cascade={"persist"})
+     */
+    protected $theme;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Nkstamina\Model\Core\UserGroup")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $userGroup;
 }

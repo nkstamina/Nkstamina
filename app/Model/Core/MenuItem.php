@@ -2,18 +2,16 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class MenuItem
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class MenuItem
 {
 
-    private $menuitemId;
+    protected $menuitemId;
 
-    private $menuId;
+    protected $menuId;
 
-    private $blockId;
+    protected $blockId;
     
-    private $order;
+    protected $order;
 }

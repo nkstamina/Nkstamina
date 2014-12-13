@@ -2,18 +2,16 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class ModuleRight
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class ModuleRight
 {
 
-    private $moduleId;
+    protected $moduleId;
 
-    private $userGroupId;
+    protected $userGroupId;
 
-    private $mainAccess;
+    protected $mainAccess;
 
-    private $adminAccess;
+    protected $adminAccess;
 }

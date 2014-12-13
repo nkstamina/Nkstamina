@@ -2,18 +2,19 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class ThemeBlock
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class ThemeBlock
 {
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $themeBlockId;
-
-    private $blockId;
-
-    private $themeBlockListId;
-    
-    private $order;
+    /**
+     * @ORM\Column(name="order", type="integer")
+     */   
+    protected $order;
 }

@@ -2,16 +2,34 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class Theme
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class Theme
 {
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Nkstamina\Model\Core\Menu", mappedBy="id")
+     */
+    protected $menus;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Nkstamina\Model\Core\ThemeBlock", mappedBy="id")
+     */
+    protected $themeBlocks;
 
-    private $themeId;
+    /**
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    protected $name;
 
-    private $name;
-
-    private $isDefaultTheme;
+    /**
+     * @ORM\Column(name="isDefaultTheme", type="boolean")
+     */
+    protected $isDefaultTheme;
 }

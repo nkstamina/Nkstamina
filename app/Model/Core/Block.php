@@ -1,17 +1,28 @@
 <?php
 namespace Nkstamina\Model\Core;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Block
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class Block
 {
 
-    private $blockId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $extensionId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\Extension", cascade={"persist"})
+     */
+    protected $extension;
 
-    private $name;
+    /**
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    protected $name;
 }

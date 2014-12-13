@@ -2,12 +2,15 @@
 namespace Nkstamina\Model\Core;
 
 /**
- * Class Extension
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class Extension
 {
 
-    private $extensionId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 }
