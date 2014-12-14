@@ -11,7 +11,12 @@ class MenuItem
 
     protected $menuitemId;
 
-    protected $menuId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
     protected $blockId;
 

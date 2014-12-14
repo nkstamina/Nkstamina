@@ -1,23 +1,43 @@
 <?php
 namespace Nkstamina\Model\Extensions\Article;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Article
- *
- * @package Nkstamina\Model\Extensions\Article
+ * @ORM\Entity
  */
 class Article
 {
 
-    private $articleId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-    private $categoryId;
+    /**
+     * @ORM\OneToMany(targetEntity="Nkstamina\Model\Extensions\Article", mappedBy="id")
+     */
+    private $category;
 
-    private $userId;
+    /**
+     * @ORM\OneToMany(targetEntity="Nkstamina\Model\Core\User", mappedBy="id")
+     */
+    private $user;
 
+    /**
+     * @ORM\Column(name="title", type="string", length=255)
+     */
     private $title;
 
+    /**
+     * @ORM\Column(name="text", type="string", length=1000)
+     */
     private $text;
 
+    /**
+     * @ORM\Column(name="date", type="datetime")
+     */
     private $date;
 }
