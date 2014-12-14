@@ -1,10 +1,10 @@
 <?php
 namespace Nkstamina\Model\Core;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Config
- *
- * @package Nkstamina\Model\Core
+ * @ORM\Entity
  */
 class Config
 {
