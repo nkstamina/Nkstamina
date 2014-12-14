@@ -6,6 +6,7 @@ namespace Nkstamina\Model\Core;
  */
 class ThemeBlock
 {
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -15,6 +16,6 @@ class ThemeBlock
 
     /**
      * @ORM\Column(name="order", type="integer")
-     */   
+     */
     protected $order;
 }

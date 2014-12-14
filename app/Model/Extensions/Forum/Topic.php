@@ -24,6 +24,6 @@ class Forum
     private $editedByUserId;
 
     private $editedDateTime;
-    
+
     private $lastPostDate;
 }

@@ -8,6 +8,7 @@ namespace Nkstamina\Model\Core;
  */
 class Config
 {
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

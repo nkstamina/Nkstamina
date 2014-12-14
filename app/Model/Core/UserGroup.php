@@ -6,6 +6,7 @@ namespace Nkstamina\Model\Core;
  */
 class UserGroup
 {
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

@@ -6,6 +6,7 @@ namespace Nkstamina\Model\Core;
  */
 class User
 {
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -27,7 +28,7 @@ class User
      * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\Theme", cascade={"persist"})
      */
     protected $theme;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Nkstamina\Model\Core\UserGroup")
      * @ORM\JoinColumn(nullable=false)

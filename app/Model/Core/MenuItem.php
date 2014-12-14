@@ -12,6 +12,6 @@ class MenuItem
     protected $menuId;
 
     protected $blockId;
-    
+
     protected $order;
 }
