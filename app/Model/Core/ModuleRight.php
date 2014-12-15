@@ -9,11 +9,23 @@ use Doctrine\ORM\Mapping as ORM;
 class ModuleRight
 {
 
-    protected $moduleId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\Module", cascade={"persist"})
+     */
+    protected $module;
 
-    protected $userGroupId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\UserGroup", cascade={"persist"})
+     */
+    protected $user_group;
 
-    protected $mainAccess;
+    /**
+     * @ORM\Column(name="main_access", type="boolean")
+     */
+    protected $main_access;
 
-    protected $adminAccess;
+    /**
+     * @ORM\Column(name="admin_access", type="boolean")
+     */
+    protected $admin_access;
 }

@@ -18,7 +18,13 @@ class MenuItem
      */
     protected $id;
 
-    protected $blockId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\Block", cascade={"persist"})
+     */
+    protected $block;
 
+    /**
+     * @ORM\Column(name="order", type="integer")
+     */
     protected $order;
 }

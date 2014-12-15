@@ -35,5 +35,5 @@ class User
      * @ORM\ManyToOne(targetEntity="Nkstamina\Model\Core\UserGroup")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $userGroup;
+    protected $user_group;
 }
