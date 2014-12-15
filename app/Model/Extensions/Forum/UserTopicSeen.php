@@ -9,9 +9,25 @@ use Doctrine\ORM\Mapping as ORM;
 class UserTopicSeen
 {
 
-    private $topicId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-    private $userId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\Topic")
+     */
+    private $topic;
 
-    private $lastSeen;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(name="last_seen", type="datetime")
+     */
+    private $last_seen;
 }

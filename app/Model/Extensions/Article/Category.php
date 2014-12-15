@@ -1,5 +1,5 @@
 <?php
-namespace Nkstamina\Model\Extensions\Article;
+namespace Nkstamina\Model\Extensions\Forum;
 
 use Doctrine\ORM\Mapping as ORM;
 

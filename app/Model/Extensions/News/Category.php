@@ -1,19 +1,33 @@
 <?php
 namespace Nkstamina\Model\Extensions\News;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Category
- *
- * @package Nkstamina\Model\Extensions\News
+ * @ORM\Entity
  */
 class Category
 {
 
-    private $categoryId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $categoryId;
 
-    private $title;
+    /**
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    protected $title;
 
-    private $description;
+    /**
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    protected $description;
 
-    private $picture;
+    /**
+     * @ORM\Column(name="picture", type="string", length=255)
+     */
+    protected $picture;
 }

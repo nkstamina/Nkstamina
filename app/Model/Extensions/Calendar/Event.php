@@ -1,23 +1,43 @@
 <?php
 namespace Nkstamina\Model\Extensions\Calendar;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Event
- *
- * @package Nkstamina\Model\Extensions\Calendar
+ * @ORM\Entity
  */
 class Category
 {
 
-    private $eventId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $dateTime;
+    /**
+     * @ORM\Column(name="date", type="datetime")
+     */
+    protected $date;
 
-    private $description;
+    /**
+     * @ORM\Column(name="description", type="string", length=1000)
+     */
+    protected $description;
 
-    private $userId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User", cascade={"persist"})
+     */
+    protected $user;
 
-    private $title;
+    /**
+     * @ORM\Column(name="title", type="string", length=1000)
+     */
+    protected $title;
 
-    private $description;
+    /**
+     * @ORM\Column(name="description", type="string", length=1000)
+     */
+    protected $description;
 }

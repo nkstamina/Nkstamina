@@ -1,19 +1,33 @@
 <?php
 namespace Nkstamina\Model\Extensions\Forum;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Forum
- *
- * @package Nkstamina\Model\Extensions\Forum
+ * @ORM\Entity
  */
 class Forum
 {
 
-    private $forumId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $forumCategoryId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\Category", cascade={"persist"})
+     */
+    protected $forum_category;
 
-    private $title;
+    /**
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    protected $title;
 
-    private $description;
+    /**
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    protected $description;
 }

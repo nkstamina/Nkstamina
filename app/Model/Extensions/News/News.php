@@ -1,19 +1,19 @@
 <?php
 namespace Nkstamina\Model\Extensions\News;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class News
- *
- * @package Nkstamina\Model\Extensions\News
+ * @ORM\Entity
  */
 class News
 {
 
-    private $newsId;
+    private $id;
 
-    private $categoryId;
+    private $category;
 
-    private $authorId;
+    private $author;
 
     private $text;
 

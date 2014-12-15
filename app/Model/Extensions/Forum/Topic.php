@@ -1,29 +1,58 @@
 <?php
 namespace Nkstamina\Model\Extensions\Forum;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class Topic
- *
- * @package Nkstamina\Model\Extensions\Forum
+ * @ORM\Entity
  */
 class Forum
 {
 
-    private $topicId;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    private $forumId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\Forum")
+     */
+    protected $forum;
 
-    private $title;
+    /**
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    protected $title;
 
-    private $description;
+    /**
+     * @ORM\Column(name="description", type="string", length=1000)
+     */
+    protected $description;
 
-    private $userId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User")
+     */
+    protected $user;
 
-    private $dateTime;
+    /**
+     * @ORM\Column(name="date_time", type="datetime", length=1000)
+     */
+    protected $date_time;
 
-    private $editedByUserId;
+    /**
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User")
+     */
+    protected $edited_by_user;
 
-    private $editedDateTime;
+    /**
+     * @ORM\Column(name="edited_date_time", type="datetime")
+     */
+    protected $edited_date_time;
 
-    private $lastPostDate;
+    /**
+     * @ORM\Column(name="last_post_date", type="datetime")
+     */
+    protected $last_post_date;
 }

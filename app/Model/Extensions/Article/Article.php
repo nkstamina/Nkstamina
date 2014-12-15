@@ -17,7 +17,7 @@ class Article
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Nkstamina\Model\Extensions\Article", mappedBy="id")
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Category")
      */
     private $category;
 
