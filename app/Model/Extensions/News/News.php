@@ -14,25 +14,25 @@ class News
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\News\Category", cascade={"persist"})
      */
-    private $category;
+    protected $category;
 
     /**
      * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User", cascade={"persist"})
      */    
-    private $author;
+    protected $author;
 
     /**
      * @ORM\Column(name="text", type="string", length=255)
      */
-    private $text;
+    protected $text;
 
     /**
      * @ORM\Column(name="date", type="datetime")
      */
-    private $date;
+    protected $date;
 }
