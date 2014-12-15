@@ -91,13 +91,15 @@ class Application extends Container implements HttpKernelInterface
         $this->register(new ExtensionServiceProvider($app));
 
         // loads App configuration parameters
-        $this['app.parameters'] = function () use ($app) {
+        $this['app.parameters'] = $app->factory(function () use ($app) {
             $parameters = [];
 
             if (Utils::isDirectoryValid($app['app.config.dir'])) {
                 $files = $app['config.finder']
                     ->files()
+                    ->name('*.yml')
                     ->in($app['app.config.dir'])
+                    ->in($app['app.extensions.dir'])
                 ;
 
                 $yaml = $app['config.parser'];
@@ -113,20 +115,7 @@ class Application extends Container implements HttpKernelInterface
             }
 
             return $parameters;
-        };
-
-
-        echo "<pre>";
-        print_r($this['app.parameters']);
-        print_r($app['extensions']);
-
-//        $this['parameters'] = function() use ($app) {
-//            $parameters = array_merge($app['app.parameters'], $app['extension.parameters']);
-//
-//            return $parameters;
-//        };
-//
-//        var_dump($this['parameters']);
+        });
 
 
         $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
