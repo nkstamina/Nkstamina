@@ -1,0 +1,4 @@
+parameters:
+  nkstaminaExtension: on
+  debug: off
+  cache: off
