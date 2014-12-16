@@ -45,10 +45,15 @@ class Application extends Container implements HttpKernelInterface
         $app = $this;
 
         $this['app.root.dir']       = realpath(__DIR__ . '/../../../../../');
-        $this['app.extensions.dir'] = $app['app.root.dir'] . '/extensions';
-        $this['app.dir']            = $app['app.root.dir'] . '/app';
-        $this['app.config.dir']     = $app['app.dir'] . '/config';
-        $this['app.cache.dir']      = $app['app.dir'] . '/cache';
+        $this['app.extensions.dir'] = $app['app.root.dir'].'/extensions';
+        $this['app.dir']            = $app['app.root.dir'].'/app';
+        $this['app.config.dir']     = $app['app.dir'].'/config';
+        $this['app.cache.dir']      = $app['app.dir'].'/cache';
+
+        // twig
+        $this['app.templates.path'] = $app['app.dir'].'/Resources/views';
+        $this['twig.cache.directory'] = $this['app.cache.dir'].'/templates';
+        $this['twig.cache_templates'] = false;
 
         // to switch between prod & dev
         // just set the APP_ENV environment variable:
@@ -62,10 +67,6 @@ class Application extends Container implements HttpKernelInterface
         $this['charset']              = 'UTF-8';
         $this['logger']               = null;
         $this['use_cache']            = false;
-
-        // twig
-        $this['twig.cache.directory'] = "";
-        $this['twig.cache_templates'] = false;
 
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
