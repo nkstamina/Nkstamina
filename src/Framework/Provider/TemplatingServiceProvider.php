@@ -12,24 +12,24 @@ use Pimple\Container;
  */
 class TemplatingServiceProvider implements ServiceProviderInterface
 {
-    const TEMPLATE_DIR_NAME = 'Views';
+    const EXTENSION_TEMPLATE_PATH = 'Resources/views';
 
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
-        $app['twig.path']            = array();
+        $app['twig.path']            = array($app['app.templates.path']);
         $app['twig.templates']       = array();
 
         $app['twig.loader'] = function () use ($app) {
             $loaders = [];
 
-            $twigLoaderFs = new \Twig_Loader_Filesystem();
+            $twigLoaderFs = new \Twig_Loader_Filesystem($app['twig.path']);
 
             foreach ($app['extensions'] as $info) {
 
-                if (!is_dir($templateViewDirectory = $info['pathName'].'/'.self::TEMPLATE_DIR_NAME)) {
+                if (!is_dir($templateViewDirectory = $info['pathName'].'/'.self::EXTENSION_TEMPLATE_PATH)) {
                     throw new InvalidTemplateDirectoryException(sprintf(
                         '"%s" is not a directory', // @wip do we have to translate this?
                         $templateViewDirectory
