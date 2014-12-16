@@ -51,7 +51,7 @@ class Application extends Container implements HttpKernelInterface
         $this['app.cache.dir']      = $app['app.dir'].'/cache';
 
         // twig
-        $this['app.templates.path'] = $app['app.dir'].'/Resources/views';
+        $this['app.templates.path']   = $app['app.dir'].'/Resources/views';
         $this['twig.cache.directory'] = $this['app.cache.dir'].'/templates';
         $this['twig.cache_templates'] = false;
 
