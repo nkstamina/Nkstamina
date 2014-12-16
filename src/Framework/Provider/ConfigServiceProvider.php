@@ -24,7 +24,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
         $locator = new FileLocator($configDirectories);
 
         // Loads routes files
-        $app['config.loader'] = function () use ($app, $locator) {
+        $app['config.loader'] = function ($app) use ($locator) {
             // load only *.yml files?
             $loader =  new YamlFileLoader($locator);
             return $loader;
