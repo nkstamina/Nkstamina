@@ -5,7 +5,9 @@ namespace Nkstamina\Framework\Provider;
 use Nkstamina\Framework\ServiceProviderInterface;
 use Pimple\Container;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class ConfigServiceProvider
@@ -21,10 +23,21 @@ class ConfigServiceProvider implements ServiceProviderInterface
         $configDirectories = [$app['app.config.dir']];
         $locator = new FileLocator($configDirectories);
 
-        $app['config_loader'] = function () use ($app, $locator) {
+        // Loads routes files
+        $app['config.loader'] = function ($app) use ($locator) {
             // load only *.yml files?
             $loader =  new YamlFileLoader($locator);
             return $loader;
+        };
+
+        // Finds files or directories
+        $app['config.finder'] = function () {
+            return new Finder();
+        };
+
+        // Parses yaml files
+        $app['config.parser'] = function () {
+            return new Parser();
         };
     }
 
@@ -44,5 +57,4 @@ class ConfigServiceProvider implements ServiceProviderInterface
     {
         return 'config_service_provider';
     }
-
-} 
+}

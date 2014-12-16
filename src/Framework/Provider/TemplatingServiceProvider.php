@@ -6,27 +6,30 @@ use Nkstamina\Framework\ServiceProviderInterface;
 use Nkstamina\Framework\Provider\Exception\InvalidTemplateDirectoryException;
 use Pimple\Container;
 
+/**
+ * Class TemplatingServiceProvider
+ * @package Nkstamina\Framework\Provider
+ */
 class TemplatingServiceProvider implements ServiceProviderInterface
 {
-    const TEMPLATE_DIR_NAME = 'Views';
+    const EXTENSION_TEMPLATE_PATH = 'Resources/views';
 
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
-
-        $app['twig.path']            = array();
+        $app['twig.path']            = array($app['app.templates.path']);
         $app['twig.templates']       = array();
 
         $app['twig.loader'] = function () use ($app) {
             $loaders = [];
 
-            $twigLoaderFs = new \Twig_Loader_Filesystem();
-            foreach ($app['app.extensions'] as $extension => $info) {
-                $templateViewDirectory = $info['pathName'] . '/' . self::TEMPLATE_DIR_NAME;
+            $twigLoaderFs = new \Twig_Loader_Filesystem($app['twig.path']);
 
-                if (!is_dir($templateViewDirectory)) {
+            foreach ($app['extensions'] as $info) {
+
+                if (!is_dir($templateViewDirectory = $info['pathName'].'/'.self::EXTENSION_TEMPLATE_PATH)) {
                     throw new InvalidTemplateDirectoryException(sprintf(
                         '"%s" is not a directory', // @wip do we have to translate this?
                         $templateViewDirectory
@@ -34,8 +37,10 @@ class TemplatingServiceProvider implements ServiceProviderInterface
                 }
 
                 $currentController = $app['request']->get('_controller');
+
                 if (strstr($currentController, '\\', true) === $info['name']) {
                     $twigLoaderFs->addPath($templateViewDirectory);
+                    break;
                 }
             }
 

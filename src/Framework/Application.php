@@ -2,10 +2,12 @@
 
 namespace Nkstamina\Framework;
 
+use Nkstamina\Framework\Common\Utils;
 use Nkstamina\Framework\Controller\ControllerResolver;
 use Nkstamina\Framework\Provider\ConfigServiceProvider;
 use Nkstamina\Framework\Provider\RoutingServiceProvider;
 use Nkstamina\Framework\Provider\TemplatingServiceProvider;
+use Nkstamina\Framework\Provider\ExtensionServiceProvider;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Application
@@ -29,8 +33,6 @@ class Application extends Container implements HttpKernelInterface
     protected $providers = [];
     protected $booted = false;
 
-    protected $extensions = [];
-
     /**
      * Constructor
      *
@@ -43,10 +45,15 @@ class Application extends Container implements HttpKernelInterface
         $app = $this;
 
         $this['app.root.dir']       = realpath(__DIR__ . '/../../../../../');
-        $this['app.extensions.dir'] = $this['app.root.dir'] . '/extensions';
-        $this['app.dir']            = $this['app.root.dir'] . '/app';
-        $this['app.config.dir']     = $this['app.dir'] . '/config';
-        $this['app.cache.dir']      = $this['app.dir'] . '/cache';
+        $this['app.extensions.dir'] = $app['app.root.dir'].'/extensions';
+        $this['app.dir']            = $app['app.root.dir'].'/app';
+        $this['app.config.dir']     = $app['app.dir'].'/config';
+        $this['app.cache.dir']      = $app['app.dir'].'/cache';
+
+        // twig
+        $this['app.templates.path']   = $app['app.dir'].'/Resources/views';
+        $this['twig.cache.directory'] = $this['app.cache.dir'].'/templates';
+        $this['twig.cache_templates'] = false;
 
         // to switch between prod & dev
         // just set the APP_ENV environment variable:
@@ -61,10 +68,6 @@ class Application extends Container implements HttpKernelInterface
         $this['logger']               = null;
         $this['use_cache']            = false;
 
-        // twig
-        $this['twig.cache.directory'] = "";
-        $this['twig.cache_templates'] = false;
-
         $this['resolver'] = function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
         };
@@ -78,35 +81,45 @@ class Application extends Container implements HttpKernelInterface
             return new HttpKernel($app['dispatcher'], $app['resolver']);
         };
 
+        $this['request_error'] = $this->protect(function () {
+            throw new \RuntimeException('Accessed request service outside of request scope. Try moving that call to a before handler or controller.');
+        });
+        $this['request'] = $this['request_error'];
+
         $this->register(new ConfigServiceProvider($app));
         $this->register(new RoutingServiceProvider($app));
         $this->register(new TemplatingServiceProvider($app));
+        $this->register(new ExtensionServiceProvider($app));
 
-        $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
+        // loads App configuration parameters
+        $this['app.parameters'] = $app->factory(function () use ($app) {
+            $parameters = [];
 
-        // load extensions
-        $this['app.extensions'] = function () use ($app) {
-            $finder = new Finder();
-            $directories = $finder
-                ->ignoreUnreadableDirs()
-                ->directories()
-                ->name('*Extension')
-                ->in($app['app.extensions.dir'])
-                ->depth('< 3')
-                ->sortByName()
-            ;
+            if (Utils::isDirectoryValid($app['app.config.dir'])) {
+                $files = $app['config.finder']
+                    ->files()
+                    ->name('*.yml')
+                    ->in($app['app.config.dir'])
+                    ->in($app['app.extensions.dir'])
+                ;
 
-            $extensions = [];
-            foreach($directories as $directory) {
-                $extensionName = $directory->getRelativePathname();
-                $extensions[$extensionName]['name'] = $extensionName;
-                $extensions[$extensionName]['pathName'] = $directory->getPathName();
+                $yaml = $app['config.parser'];
+
+                foreach($files as $file) {
+                    try {
+                        $parameters[$file->getRelativePathname()] = [$yaml->parse(file_get_contents($file->getRealpath()))];
+
+                    } catch(ParseException $e) {
+                        printf("Unable to parse the YAML string: %s", $e->getMessage());
+                    }
+                }
             }
 
-            $this->extensions = $extensions;
+            return $parameters;
+        });
 
-            return $extensions;
-        };
+
+        $this['dispatcher']->addSubscriber(new RouterListener($app['matcher']));
 
         foreach ($values as $key => $value) {
             $this[$key] = $value;
@@ -156,10 +169,17 @@ class Application extends Container implements HttpKernelInterface
             $this->boot();
         }
 
+        $current = HttpKernelInterface::SUB_REQUEST === $type ? $this['request'] : $this['request_error'];
+
         $this['request'] = $request;
+
         $request->attributes->add($this['matcher']->match($request->getPathInfo()));
 
-        return $this['kernel']->handle($request, $type, $catch);
+        $response =  $this['kernel']->handle($request, $type, $catch);
+
+        $this['request'] = $current;
+
+        return $response;
     }
 
     /**
@@ -187,7 +207,7 @@ class Application extends Container implements HttpKernelInterface
     }
 
     /**
-     * Return an array of all providers loaded
+     * Returns an array of all providers loaded
      *
      * @return array
      */
@@ -197,12 +217,25 @@ class Application extends Container implements HttpKernelInterface
     }
 
     /**
-     * Return an array of all extensions loaded
+     * Sets a value for a key
      *
-     * @return array
+     * @param $key
+     * @param $value
      */
-    public function getExtensions()
+    public function setValue($key, $value)
     {
-        return $this->extensions;
+        $this[$key] = $value;
+    }
+
+    /**
+     * Returns a specific value for a key
+     *
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function getValue($key)
+    {
+        return $this[$key];
     }
 }
