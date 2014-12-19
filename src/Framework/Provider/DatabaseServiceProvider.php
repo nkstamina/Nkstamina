@@ -1,6 +1,9 @@
 <?php
 
 namespace Nkstamina\Framework\Provider;
+
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Configuration;
 use Nkstamina\Framework\ServiceProviderInterface;
 use Pimple\Container;
 
@@ -16,7 +19,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['db.default_options'] = array(
-            'driver' => 'pdo_mysql',
+            'driver' => '%db_driver%',
             'dbname' => null,
             'host' => 'localhost',
             'user' => 'root',
@@ -25,7 +28,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         );
 
         $app['db'] = function () use ($app) {
-            //
+            return DriverManager::getConnection($app['db.default_options'], new Configuration());
         };
     }
 
@@ -34,15 +37,16 @@ class DatabaseServiceProvider implements ServiceProviderInterface
      */
     public function boot(Container $app)
     {
-        // TODO: Implement boot() method.
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the name of the service
+     *
+     * @return mixed
      */
     public function getName()
     {
         return 'database_service_provider';
     }
+}
 
-} 
