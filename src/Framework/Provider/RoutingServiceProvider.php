@@ -48,7 +48,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
          * @return UrlMatcher
          */
         $app['matcher'] = function () use ($app) {
-          return new UrlMatcher($app['router'], $app['request_context']);
+            return new UrlMatcher($app['router'], $app['request_context']);
         };
 
         /**
@@ -62,7 +62,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
         );
 
         $app['router'] = function () use ($app, $options) {
-             $router = new Router(
+            $router = new Router(
                 $app['config.loader'],
                 sprintf(self::CONFIG_ROUTES_FILE, $app['env']),
                 $options
