@@ -1,8 +1,11 @@
 <?php
 
 namespace Nkstamina\Framework\Provider;
+
 use Nkstamina\Framework\ServiceProviderInterface;
 use Pimple\Container;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
 
 /**
  * Class DatabaseServiceProvider
@@ -25,7 +28,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         );
 
         $app['db'] = function () use ($app) {
-            //
+            return DriverManager::getConnection($app['db.default_options'], new Configuration());
         };
     }
 
@@ -44,5 +47,5 @@ class DatabaseServiceProvider implements ServiceProviderInterface
     {
         return 'database_service_provider';
     }
+}
 
-} 

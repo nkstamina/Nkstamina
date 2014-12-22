@@ -2,6 +2,7 @@
 
 namespace Nkstamina\Framework\Provider;
 
+use Nkstamina\Framework\Common\Utils;
 use Nkstamina\Framework\ServiceProviderInterface;
 use Nkstamina\Framework\Provider\Exception\InvalidTemplateDirectoryException;
 use Pimple\Container;
@@ -94,13 +95,6 @@ class TemplatingServiceProvider implements ServiceProviderInterface
      */
     private function isTemplateCacheDirectoryValid($directory)
     {
-        if (!is_dir($directory) OR !is_readable($directory)) {
-            throw new \Exception(sprintf(
-                'Directory "%s" is not readable or does not exit', // @wip do we have to translate this?
-                $directory
-            ));
-        }
-
-        return true;
+        return Utils::isDirectoryValid($directory);
     }
 } 
