@@ -1,0 +1,12 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: database.yml }
+
+doctrine:
+    dbal:
+        driver: %database_driver%
+        name: null
+        host: 'localhost'
+        user: 'root'
+        password: roo
+        port: null
