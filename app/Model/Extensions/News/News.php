@@ -17,7 +17,7 @@ class News
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\News\Category", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\News\NewsCategory", cascade={"persist"})
      */
     protected $category;
 
