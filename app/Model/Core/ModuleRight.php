@@ -15,7 +15,7 @@ class ModuleRight
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\Module", cascade={"persist"})
      */

@@ -1,21 +1,21 @@
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-$paths = array(__DIR__."/Model");
-$isDevMode = true;
+$paths = array(
+    __DIR__ . "/Model"
+);
+$is_dev_mode = true;
 
 // the connection configuration
-$dbParams = array(
-    'driver'   => 'pdo_mysql',
-    'user'     => 'root',
+$db_params = array(
+    'driver' => 'pdo_mysql',
+    'user' => 'root',
     'password' => '',
-    'dbname'   => 'nkstamina',
+    'dbname' => 'nkstamina'
 );
 
-$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, null, null, false);
-$entityManager = EntityManager::create($dbParams, $config);
+$config = Setup::createAnnotationMetadataConfiguration($paths, $is_dev_mode, null, null, false);
+$em = EntityManager::create($db_params, $config);
