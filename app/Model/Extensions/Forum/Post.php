@@ -27,12 +27,12 @@ class Post
     protected $description;
 
     /**
-     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\User")
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User")
      */
     protected $user;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="date_time", type="datetime")
      */
     protected $date_time;
 

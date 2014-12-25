@@ -1,12 +1,12 @@
 <?php
-namespace Nkstamina\Model\Extensions\Forum;
+namespace Nkstamina\Model\Extensions\Article;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class Category
+class ArticleCategory
 {
 
     /**

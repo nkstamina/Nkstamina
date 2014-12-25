@@ -17,7 +17,7 @@ class Forum
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\Category", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\ForumCategory", cascade={"persist"})
      */
     protected $forum_category;
 
