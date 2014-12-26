@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="coreModuleRight") 
  */
 class ModuleRight
 {
@@ -27,12 +28,12 @@ class ModuleRight
     protected $user_group;
 
     /**
-     * @ORM\Column(name="main_access", type="boolean")
+     * @ORM\Column(name="mainAccess", type="boolean")
      */
     protected $main_access;
 
     /**
-     * @ORM\Column(name="admin_access", type="boolean")
+     * @ORM\Column(name="adminAccess", type="boolean")
      */
     protected $admin_access;
 }

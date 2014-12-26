@@ -5,8 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="forumCategory") 
  */
-class ForumCategory
+class Category
 {
 
     /**

@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="forumTopic") 
  */
 class Topic
 {
@@ -37,7 +38,7 @@ class Topic
     protected $user;
 
     /**
-     * @ORM\Column(name="date_time", type="datetime", length=1000)
+     * @ORM\Column(name="dateTime", type="datetime")
      */
     protected $date_time;
 
@@ -47,12 +48,12 @@ class Topic
     protected $edited_by_user;
 
     /**
-     * @ORM\Column(name="edited_date_time", type="datetime")
+     * @ORM\Column(name="editedDateTime", type="datetime")
      */
     protected $edited_date_time;
 
     /**
-     * @ORM\Column(name="last_post_date", type="datetime")
+     * @ORM\Column(name="lastPostDate", type="datetime")
      */
     protected $last_post_date;
 }

@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="OC\PlatformBundle\Entity\ImageRepository")
+ * @ORM\Table(name="forumUserTopicSeen") 
  */
 class UserTopicSeen
 {
@@ -27,7 +28,7 @@ class UserTopicSeen
     private $user;
 
     /**
-     * @ORM\Column(name="last_seen", type="datetime")
+     * @ORM\Column(name="lastSeen", type="datetime")
      */
     private $last_seen;
 }

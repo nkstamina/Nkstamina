@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="forumForum") 
  */
 class Forum
 {
@@ -17,7 +18,7 @@ class Forum
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\ForumCategory", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Forum\Category", cascade={"persist"})
      */
     protected $forum_category;
 
