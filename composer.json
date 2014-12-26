@@ -1,12 +1,13 @@
 {
-    "name": "nkstamina/nkstamina",
+    "name": "nkstamina/framework",
+    "description": "The NkStamina Framework",
+    "keywords": ["framework", "nkstamina"],
+    "homepage": "https://github.com/nkstamina",
     "license": "MIT",
-    "type": "project",
-    "description": "A Nuked-Klan 2.0 PoC with good calories",
     "authors": [
         {
-            "name": "maclovr",
-            "email": "maclovr75@gmail.com"
+            "name": "nkstamina",
+            "email": "nkstamina@gmail.com"
         },
         {
             "name": "thoren",
@@ -15,16 +16,28 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "nkstamina/framework": "dev-develop"
+        "pimple/pimple": "~3.0",
+        "symfony/finder": "2.5.*",
+        "symfony/http-foundation": "2.5.*",
+        "symfony/http-kernel": "2.5.*",
+        "symfony/routing": "2.5.*",
+        "symfony/yaml": "2.5.*",
+        "symfony/event-dispatcher": "2.5.*",
+        "symfony/config": "2.5.*",
+        "twig/twig": "~1.0",
+        "doctrine/dbal": "2.3.5"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "4.3.*",
+      "phpspec/phpspec": "2.1.*-dev"
     },
     "autoload": {
-        "psr-0": {
-            "": "extensions"
+        "psr-4": {
+            "Nkstamina\\": "src"
         }
     },
+    "minimum-stability": "dev",
     "extra": {
-        "nkstamina-app-dir": "app",
-        "nkstamina-web-dir": "web",
         "branch-alias": {
             "dev-master": "0.1-dev"
         }
