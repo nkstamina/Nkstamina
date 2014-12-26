@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="articleArticle")
  */
 class Article
 {
@@ -17,7 +18,7 @@ class Article
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Category")
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\Article\ArticleCategory")
      */
     private $category;
 

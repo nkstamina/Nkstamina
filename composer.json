@@ -7,11 +7,15 @@
         {
             "name": "maclovr",
             "email": "maclovr75@gmail.com"
+        },
+        {
+            "name": "thoren",
+            "email": "thorenx@hotmail.fr"
         }
     ],
     "require": {
         "php": ">=5.3.3",
-        "nkstamina/framework": "dev-master"
+        "nkstamina/framework": "dev-develop"
     },
     "autoload": {
         "psr-0": {
