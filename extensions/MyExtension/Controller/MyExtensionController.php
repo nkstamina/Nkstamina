@@ -1,5 +1,4 @@
 <?php
-
 namespace MyExtension\Controller;
 
 use Symfony\Component\HttpFoundation\Request;

@@ -1,5 +1,4 @@
 <?php
-
 namespace NkstaminaExtension\Controller;
 
 use Nkstamina\Framework\Controller\Controller as FrameworkController;
