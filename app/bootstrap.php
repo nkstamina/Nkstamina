@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
+// commandes temporaires avant l'intégration complète de Doctrine dans le framework ->
 $paths = array(
     __DIR__ . "/Model"
 );
@@ -19,3 +20,4 @@ $db_params = array(
 
 $config = Setup::createAnnotationMetadataConfiguration($paths, $is_dev_mode, null, null, false);
 $em = EntityManager::create($db_params, $config);
+// <-

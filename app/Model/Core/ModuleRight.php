@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="coreModuleRight") 
+ * @ORM\Table(name="coreModuleRight")
  */
 class ModuleRight
 {

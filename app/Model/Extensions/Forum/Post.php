@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="forumPost") 
+ * @ORM\Table(name="forumPost")
  */
 class Post
 {
