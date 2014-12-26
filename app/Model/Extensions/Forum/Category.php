@@ -18,12 +18,12 @@ class Category
     protected $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=30)
      */
     protected $title;
 
     /**
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=1000)
      */
     protected $description;
 }

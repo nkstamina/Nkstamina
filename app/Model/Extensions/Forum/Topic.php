@@ -23,7 +23,7 @@ class Topic
     protected $forum;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=30)
      */
     protected $title;
 

@@ -18,12 +18,12 @@ class Post
     protected $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=30)
      */
     protected $title;
 
     /**
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=1000)
      */
     protected $description;
 
@@ -33,7 +33,7 @@ class Post
     protected $user;
 
     /**
-     * @ORM\Column(name="date_time", type="datetime")
+     * @ORM\Column(name="dateTime", type="datetime")
      */
     protected $date_time;
 
@@ -43,7 +43,7 @@ class Post
     protected $edited_by_user;
 
     /**
-     * @ORM\Column(name="edited_date_time", type="datetime")
+     * @ORM\Column(name="editedDateTime", type="datetime")
      */
     protected $edited_date_time;
 
