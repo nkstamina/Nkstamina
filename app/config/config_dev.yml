@@ -1,3 +1,2 @@
-toto: "toto"
-titi: "titi"
-debug: true
+imports:
+    - { resource: config.yml }
