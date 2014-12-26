@@ -1,0 +1,10 @@
+toto: "toto"
+titi: "titi"
+debug: false
+doctrine:
+    dbal:
+        driver:   "pdo_mysql"
+        host:     "localhost"
+        dbname:   "nkstamina"
+        user:     "root"
+        password: ""
