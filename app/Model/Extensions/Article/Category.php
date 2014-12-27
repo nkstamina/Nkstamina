@@ -1,10 +1,11 @@
 <?php
-namespace Nkstamina\Model\Extensions\Forum;
+namespace Nkstamina\Model\Extensions\Article;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="articleCategory")
  */
 class Category
 {
@@ -17,7 +18,7 @@ class Category
     private $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=30)
      */
     private $title;
 

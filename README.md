@@ -1,7 +1,7 @@
 # NKstamina, a Nuked-Klan 2.0 PoC with good calories 
 ----------------------------------------------------
 
-[Visitez Le framework de NkStamina](http://github.com/nkstamina/Framework) en cours de dÃ©veloppement
+[Visitez Le framework de NkStamina](http://github.com/nkstamina/Framework) en cours de développement
 Vous souhaitez nous aider? C'est facile, Forkez le projet :)
 
 [Visit The NkStamina Framework](http://github.com/nkstamina/Framework) still in development

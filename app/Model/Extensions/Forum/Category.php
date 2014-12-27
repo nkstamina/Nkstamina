@@ -5,8 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="forumCategory")
  */
-class ForumCategory
+class Category
 {
 
     /**
@@ -17,12 +18,12 @@ class ForumCategory
     protected $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=30)
      */
     protected $title;
 
     /**
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=1000)
      */
     protected $description;
 }
