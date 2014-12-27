@@ -15,7 +15,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "nkstamina/framework": "dev-master"
+        "nkstamina/framework": "dev-master",
+        "doctrine/orm" : "2.3.5"
     },
     "autoload": {
         "psr-0": {
