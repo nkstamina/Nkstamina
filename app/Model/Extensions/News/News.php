@@ -4,7 +4,8 @@ namespace Nkstamina\Model\Extensions\News;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity 
+ * @ORM\Entity
+ * @ORM\Table(name="forumNews")
  */
 class News
 {
@@ -17,13 +18,13 @@ class News
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\News\Category", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Nkstamina\Model\Extensions\News\NewsCategory", cascade={"persist"})
      */
     protected $category;
 
     /**
      * @ORM\OneToOne(targetEntity="Nkstamina\Model\Core\User", cascade={"persist"})
-     */    
+     */
     protected $author;
 
     /**

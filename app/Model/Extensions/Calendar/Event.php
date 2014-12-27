@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="calendarEvent")
  */
 class Category
 {
@@ -35,9 +36,4 @@ class Category
      * @ORM\Column(name="title", type="string", length=1000)
      */
     protected $title;
-
-    /**
-     * @ORM\Column(name="description", type="string", length=1000)
-     */
-    protected $description;
 }
