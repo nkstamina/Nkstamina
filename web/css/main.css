@@ -32,6 +32,10 @@ html {
     text-shadow: none;
 }
 
+body {
+  padding-top: 50px;
+}
+
 /*
  * A better looking default horizontal rule
  */
