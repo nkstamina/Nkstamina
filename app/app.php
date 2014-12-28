@@ -2,5 +2,23 @@
 
 require_once __DIR__.'/bootstrap.php';
 
-$app = new \Nkstamina\Framework\Application();
+use Nkstamina\Framework\Application;
+
+class App extends Application
+{
+    public function registerExtensions()
+    {
+        // Declare all your extensions here!
+        $extensions = array(
+            new \MyExtension\MyExtension(),
+            new \NkStaminaExtension\NkStaminaExtension(),
+        );
+
+        return $extensions;
+    }
+}
+
+// Start the application
+$app = new App();
+
 return $app;
