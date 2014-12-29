@@ -1,8 +1,0 @@
-homepage:
-    path:     /
-    defaults: { _controller: NkstaminaExtension\Controller\MainController::homepageAction }
-
-
-extension:
-    path:     /extension/{name}
-    defaults: { _controller: MyExtension\Controller\MyExtensionController::indexAction }
