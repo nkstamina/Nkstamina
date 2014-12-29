@@ -10,8 +10,8 @@ class App extends Application
     {
         // Declare all your extensions here!
         $extensions = array(
-            new \MyExtension\MyExtension(),
-            new \NkStaminaExtension\NkStaminaExtension(),
+            new NkStamina\MyExtension\MyExtension(),
+            new NkStamina\NkStaminaExtension\NkStaminaExtension(),
         );
 
         return $extensions;
