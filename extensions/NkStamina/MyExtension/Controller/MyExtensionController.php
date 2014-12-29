@@ -1,5 +1,5 @@
 <?php
-namespace MyExtension\Controller;
+namespace NkStamina\MyExtension\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Nkstamina\Framework\Controller\Controller as FrameworkController;

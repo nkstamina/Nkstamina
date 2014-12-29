@@ -1,11 +1,11 @@
 <?php
-namespace NkstaminaExtension;
+namespace Nkstamina\NkstaminaExtension;
 
 use Nkstamina\Framework\Application;
-use Nkstamina\Framework\Extension\Extension as BaseExtension;
+use Nkstamina\Framework\Extension\Extension;
 
 
-class NkStaminaExtension extends BaseExtension
+class NkStaminaExtension extends Extension
 {
     /**
      * {@inheritdoc}
