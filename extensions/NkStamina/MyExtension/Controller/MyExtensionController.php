@@ -7,8 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MyExtensionController extends FrameworkController
 {
-    public function indexAction($name)
+    /**
+     * Test controller
+     *
+     * @param strint $qs    query string
+     * @return mixed|Response
+     */
+    public function indexAction($qs)
     {
-        return $this->render('index.html.twig');
+        return $this->render('index.html.twig', array(
+            'qs' => $qs
+        ));
     }
 } 
